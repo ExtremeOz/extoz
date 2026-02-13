@@ -1,0 +1,61 @@
+{
+  "id": "default",
+  "name": "Default Tenant",
+  "assets": {
+    "logo": "/assets/tenants/default/logo.svg",
+    "favicon": "/assets/tenants/default/favicon.ico"
+  },
+  "cssVars": {
+    "brand": "#0B5FFF",
+    "brand-contrast": "#FFFFFF",
+    "accent": "#00B894",
+    "bg": "#FFFFFF",
+    "surface": "#F8FAFC",
+    "text": "#111827",
+    "muted": "#6B7280",
+    "btn-radius": "8px",
+    "focus-ring": "0 0 0 3px rgba(11,95,255,0.35)"
+  },
+  "text": {
+    "title": {
+      "en": "Request an inspection"
+    },
+    "tagline": {
+      "en": "Tell us a few details and your preferred times."
+    },
+    "tagline2": {
+      "en": "* indicates a required field others are optional"
+    },
+    "cta": {
+      "en": "Submit request"
+    }
+  },
+  "services": [
+    {
+      "id": "prepurchase",
+      "label": "Pre\u2011purchase inspection"
+    },
+    {
+      "id": "pest",
+      "label": "Pest inspection"
+    },
+    {
+      "id": "building",
+      "label": "Building inspection"
+    }
+  ],
+  "features": {
+    "enablePhoneVerification": true,
+    "enableEmailVerification": true,
+    "showSupportChat": false
+  },
+  "policy": {
+    "allowedOrigins": [
+      "https://verify.example.com",
+      "https://portal.example.com"
+    ]
+  },
+  "endpoints": {
+    "inspectionRequestFlow": "https://acd06123d6dfed108b2b6f31e6923e.c5.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/d83d68207a794404ba7c0cd3509dc92f/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=jOtVht8zCLjy1WHv9DyQ6WZjbzQQtn8AOxjdScp4S88"
+  }
+}

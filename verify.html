@@ -1,0 +1,29 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link id="favicon" rel="icon" href="/extoz/assets/default-favicon.ico" />
+  <title>Verify</title>
+  <link rel="stylesheet" href="/extoz/styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <img id="logo" alt="Tenant logo" src="/extoz/assets/default-logo.svg" height="32" />
+    <h1 data-i18n="title">Identity verification</h1>
+  </header>
+  <main class="container">
+    <p data-i18n="tagline" class="hint">Securely confirm your contact details to continue.</p>
+    <section class="card">
+      <p id="verify-intro">When you click verify, we’ll securely confirm your email and/or mobile for this tenant.</p>
+      <div id="verify-error" class="error" hidden></div>
+      <div class="actions">
+        <button class="button-primary" id="verification-cta" data-i18n="cta">Verify now</button>
+      </div>
+    </section>
+  </main>
+  <script type="module">window.__BASE__ = '/extoz';</script>
+  <script type="module" src="/extoz/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,174 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link id="favicon" rel="icon" href="/extoz/assets/default-favicon.ico" />
+  <title>Inspection request</title>
+  <link rel="stylesheet" href="/extoz/styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <img id="logo" alt="Tenant logo" src="/extoz/assets/default-logo.svg" height="80" />
+    <h1 data-i18n="title">Request an inspection</h1>
+  </header>
+  <main class="container">
+    <p data-i18n="tagline" class="hint">Tell us a few details and your preferred times. We’ll confirm by email or SMS.</p>
+    <form id="inspection-form" novalidate class="card form-grid">
+      <h2>Contact details</h2>
+      <p data-i18n="tagline2" class="hint">&#42; indicates a required field others are optional</p>
+      <div class="row-2">
+        <div class="field">
+          <label for="firstName">&#42;First name</label>
+          <input id="firstName" name="firstName" autocomplete="given-name" required />
+        </div>
+        <div class="field">
+          <label for="lastName">&#42;Last name</label>
+          <input id="lastName" name="lastName" autocomplete="family-name" required />
+        </div>
+      </div>
+      <div class="row-3">
+        <div class="field">
+          <label for="email">&#42;Email</label>
+          <input id="email" name="email" type="email" autocomplete="email" inputmode="email" required />
+        </div>
+        <div class="field">
+          <label for="phone">&#42;Mobile</label>
+          <input id="phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" pattern="^\+?\d[\d\s()-]{7,}$" placeholder="+61 4xx xxx xxx" required />
+          <div class="hint">Mobile needed for SMS confirmation.</div>
+        </div>
+        <div class="field">
+          <label for="contactMethod">Preferred contact method</label>
+          <select id="contactMethod" name="contactMethod" required>
+            <option value="">Select</option>
+            <option>Email</option><option>SMS</option><option>Either</option>
+          </select>
+        </div>
+      </div>
+      <h2>Inspection address</h2>
+      <div class="row-2">
+        <div class="field">
+          <label for="address1">&#42;Street address</label>
+          <input id="address1" name="address1" autocomplete="address-line1" placeholder="Unit 3 / 25 Example St" required />
+        </div>
+        <div class="field">
+          <label for="address2">Address 2 (optional)</label>
+          <input id="address2" name="address2" autocomplete="address-line2" />
+        </div>
+      </div>
+      <div class="row-3">
+        <div class="field">
+          <label for="suburb">&#42;Suburb / City</label>
+          <input id="suburb" name="suburb" autocomplete="address-level2" required />
+        </div>
+        <div class="field">
+          <label for="state">&#42;State</label>
+          <select id="state" name="state" autocomplete="address-level1" required>
+            <option value="">Select</option>
+            <option>QLD</option><option>NSW</option><option>VIC</option>
+            <option>SA</option><option>WA</option><option>TAS</option>
+            <option>ACT</option><option>NT</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="postcode">&#42;Postcode</label>
+          <input id="postcode" name="postcode" inputmode="numeric" pattern="^\d{4}$" placeholder="4870" required />
+        </div>
+      </div>
+      <div class="row">
+          <div class="field">
+            <label for="address3">Address Notes</label>
+            <input id="address3" name="address3" placeholder="eg. meeting client for key at site" />
+          </div>
+      </div>
+      <h2>Service</h2>
+      <div class="row-2">
+        <div class="field">
+          <label for="service">&#42;Service</label>
+          <select id="service" name="service" required multiple size="5">
+            <option value="">Select a service</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="notes">Notes (optional)</label>
+          <input id="notes" name="notes" maxlength="400" placeholder="Access details, hazards, pets, etc." />
+        </div>
+      </div>
+      <!-- building inspection extra inputs -->
+      <div id="building-details" hidden aria-hidden="true">
+        <h2>Building Details</h2>
+        <div class="row-2">
+          <div class="field">
+            <label for="nbrBuildings">&#42;Number of buildings or structures</label>
+            <input id="nbrBuildings" name="nbrBuildings" type="number" min="0" required/>
+          </div>          
+          <div class="field">            
+            <label for="nbrLounge">Number of lounge rooms</label>
+            <input id="nbrLounge" name="nbrLounge" type="number" min="0" />
+          </div>
+        </div>
+        <div class="row-2">
+          <div class="field">
+            <label for="nbrKitchen">Number of kitchens</label>
+            <input id="nbrKitchen" name="nbrKitchen" type="number" min="0" />
+          </div>
+          <div class="field">
+            <label for="nbrBedroom">Number of bedrooms</label>
+            <input id="nbrBedroom" name="nbrBedroom" type="number" min="0" />
+          </div>
+        </div>
+        <div class="row-2">
+          <div class="field">
+            <label for="nbrToilet">Number of Toilets</label>
+            <input id="nbrToilet" name="nbrToilet" type="number" min="0" />
+          </div>
+          <div class="field">
+            <label for="nbrLaundry">Number of laundries</label>
+            <input id="nbrLaundry" name="nbrLaundry" type="number" min="0" />
+          </div>
+        </div>
+        <div class="row-2">
+          <div class="field">
+            <label for="nbrOther">Number of other rooms</label>
+            <input id="nbrOther" name="nbrOther" type="number" min="0" />
+          </div>
+        </div>
+      </div>
+      <h2>Preferred times</h2>
+      <div class="row-2">
+        <div class="field">
+          <label for="date1">&#42;Date 1</label>
+          <input id="date1" name="date1" type="date" required />
+        </div>
+        <div class="field">
+          <label for="time1">&#42;Time 1</label>
+          <input id="time1" name="time1" type="time" step="1800" required />
+          <div class="hint">rounds to 30‑minute increments</div>
+        </div>
+      </div>
+      <div class="row-2">
+        <div class="field">
+          <label for="date2">Date 2 (optional)</label>
+          <input id="date2" name="date2" type="date" />
+        </div>
+        <div class="field">
+          <label for="time2">Time 2 (optional)</label>
+          <input id="time2" name="time2" type="time" step="1800" />
+        </div>
+      </div>
+      <div aria-hidden="true" hidden>
+        <label for="website">Website</label>
+        <input id="website" name="website" tabindex="-1" autocomplete="off" />
+      </div>
+      <div id="form-error" class="error" hidden></div>
+      <div class="actions">
+        <button type="submit" class="button-primary" id="submitBtn" data-i18n="cta">Submit request</button>
+        <button type="button" id="saveDraftBtn">Save draft</button>
+      </div>
+    </form>
+  </main>
+  <script type="module">window.__BASE__ = '/extoz';</script>
+  <script type="module" src="/extoz/app.js"></script>
+</body>
+</html>

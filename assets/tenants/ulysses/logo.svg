@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="90" viewBox="0 0 320 90" role="img" aria-label="Ulysses butterfly logo">
+  <rect width="100%" height="100%" rx="12" fill="#0f172a"/>
+  <!-- left wing -->
+  <path d="M95,45 C70,10 60,10 40,28 C25,42 30,58 55,66 C75,72 85,60 95,45" fill="#0B5FFF" stroke="#111827" stroke-width="2"/>
+  <!-- right wing -->
+  <path d="M225,45 C250,10 260,10 280,28 C295,42 290,58 265,66 C245,72 235,60 225,45" fill="#0B5FFF" stroke="#111827" stroke-width="2"/>
+  <!-- body -->
+  <rect x="155" y="25" width="10" height="40" rx="5" fill="#000000"/>
+  <circle cx="160" cy="22" r="6" fill="#000000"/>
+</svg>
