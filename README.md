@@ -1,2 +1,0 @@
-# extoz
-SWA for ExtremeOz

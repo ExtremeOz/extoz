@@ -8,10 +8,11 @@ const QS = new URLSearchParams(location.search);
 // id used to identify building‑inspection service in configs
 const BUILDING_SERVICE_ID = 'building';
 const PREPURCH_SERVICE_ID = 'prepurchase';
+const PEST_SERVICE_ID = 'pest';
 
 function getTenantId() {
   const raw = (QS.get('tenant') || '').toLowerCase().trim();
-  const ALLOWED = ['default', 'ulysses', 'extoz','freemano'];
+  const ALLOWED = ['default', 'ulysses', 'extoz', 'freemano'];
   return ALLOWED.includes(raw) ? raw : 'default';
 }
 function getLang() { return QS.get('lang') || document.documentElement.lang || 'en'; }
@@ -86,7 +87,7 @@ function initInspectionPage(cfg, tenant, lang) {
   const form = document.getElementById('inspection-form'); const saveDraftBtn = document.getElementById('saveDraftBtn'); const submitBtn = document.getElementById('submitBtn'); const errorEl = document.getElementById('form-error');
   const showError = (m)=>{ if (errorEl) { errorEl.textContent = m; errorEl.hidden = !m; } };
   const serviceSel = document.getElementById('service'); if (serviceSel && Array.isArray(cfg.services)) { for (const s of cfg.services) { const o = document.createElement('option'); o.value = s.id; o.textContent = s.label; serviceSel.appendChild(o);} }
-  // show/hide building fields if any selected service is building inspection
+  // show/hide building fields when appropriate
   function updateBuildingFields() {
     const selected = Array.from(form.elements['service'].selectedOptions).map(opt => ({ code: opt.value, quantity: 1 }));
     const should = (selected.some(s => s.code === BUILDING_SERVICE_ID) || selected.some(s => s.code === PREPURCH_SERVICE_ID));
@@ -94,7 +95,7 @@ function initInspectionPage(cfg, tenant, lang) {
     if (container) { container.hidden = !should; container.setAttribute('aria-hidden', String(!should)); }
   }
   serviceSel?.addEventListener('change', updateBuildingFields);
-//  serviceSel?.addEventListener('click', updateBuildingFields);
+ // serviceSel?.addEventListener('click', updateBuildingFields);
   updateBuildingFields();
   const DRAFT_KEY = `draft:${tenant}`; try { const d = JSON.parse(sessionStorage.getItem(DRAFT_KEY) || 'null'); if (d && form) { for (const [k,v] of Object.entries(d)) { const el = form.elements.namedItem(k); if (el && 'value' in el) el.value = v; } } } catch {}
   for (const id of ['time1','time2']) { const el = document.getElementById(id); el?.addEventListener('change', ()=>{ el.value = roundTo30Min(el.value); }); }
@@ -105,19 +106,17 @@ function initInspectionPage(cfg, tenant, lang) {
     const fd = new FormData(form);
       // Multi-select services => array of { code, quantity: 1 }
     const services = Array.from(form.elements['service'].selectedOptions)
-      .map(opt => ({ code: opt.value, quantity: 1 }));
-
+      .map(opt => ({ code: opt.value, quantity: 1 }));   
+  
     const payload = {
       tenant, lang, source: 'inspection-form',
       idempotencyKey: uuidv4(),
       firstName: fd.get('firstName')?.toString().trim(), lastName: fd.get('lastName')?.toString().trim(),
       email: fd.get('email')?.toString().trim().toLowerCase(), phone: fd.get('phone')?.toString().trim(),
-      preferredContactMethod: fd.get('preferredContactMethod')?.toString() || 'email',
       address1: fd.get('address1')?.toString().trim(), address2: fd.get('address2')?.toString().trim() || null,
       suburb: fd.get('suburb')?.toString().trim(), state: fd.get('state')?.toString().trim(), postcode: fd.get('postcode')?.toString().trim(), country: 'AU',
       address3: fd.get('address3')?.toString().trim() || null,
       service: services,
-      notes: fd.get('notes')?.toString().trim() || null,
       preferences: [ toPreference(fd.get('date1')?.toString(), fd.get('time1')?.toString()), toPreference(fd.get('date2')?.toString(), fd.get('time2')?.toString()) ].filter(Boolean),
       query: Object.fromEntries(QS.entries()), submittedUtc: new Date().toISOString()
     };
@@ -134,7 +133,6 @@ function initInspectionPage(cfg, tenant, lang) {
       };
     }
     if (payload.phone?.startsWith('0')) payload.phone = '+61' + payload.phone.slice(1).replace(/\s+/g, '');
-    console.log('Submitting payload', JSON.stringify(payload));
     const url = cfg.endpoints?.inspectionRequestFlow || cfg.endpoints?.verifyHttpFlow; if (!url) { showError('Submission endpoint is not configured for this tenant.'); return; }
     setBusy(true); try { const r = await fetch(url, { method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify(payload) }); if (!r.ok) throw new Error(await r.text().catch(()=>`HTTP ${r.status}`)); sessionStorage.removeItem(DRAFT_KEY); alert('Thanks! Your inspection request has been submitted.'); form.reset(); }
     catch(err){ console.error(err); showError('Something went wrong submitting your request. Please try again.'); }
