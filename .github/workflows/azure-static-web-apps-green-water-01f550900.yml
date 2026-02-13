@@ -1,4 +1,4 @@
-name: Azure Static Web Apps CI/CD
+name: Azure Static Web Apps v4Upload CI/CD
 
 on:
   push:
@@ -9,12 +9,15 @@ jobs:
   build_and_deploy_job:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Deploy
+      - name: Deploy Static Web App
         uses: Azure/static-web-apps-deploy@v1
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_GREEN_WATER_01F550900 }}
-          action: "upload"
-          app_location: "/"
-          skip_app_build: true
+          action: upload
+          app_location: "/"          # repo root
+          skip_app_build: true       # no build step for plain HTML/JS
+          # api_location: ""         # omit if not using an API
+          # output_location: ""      # omit for plain sites
