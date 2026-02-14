@@ -20,6 +20,7 @@
     "title": {
       "en": "Request an inspection"
     },
+    "displayName": {"en" : "Example Inspections"},
     "tagline": {
       "en": "Tell us a few details and your preferred times."
     },

@@ -1,6 +1,6 @@
-{
+{  
   "id": "freemano",
-  "name": "Cairns PrePurchase Building Inspections",
+  "name": "Freemano Pty Ltd",
   "assets": {
     "logo": "/assets/tenants/freemano/logo-oct.gif",
     "favicon": "/assets/tenants/freemano/favicon.ico"
@@ -20,6 +20,7 @@
     "title": {
       "en": "Request an inspection"
     },
+    "displayName": {"en" : "Cairns Pre-Purchase Building Inspections"},
     "tagline": {
       "en": "Tell us a few details and your preferred times."
     },

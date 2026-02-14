@@ -70,7 +70,6 @@ function withBase(p) {
   applyCssVars(cfg.cssVars);
   const logo = document.getElementById('logo'); if (logo && cfg.assets?.logo) logo.src = cfg.assets.logo;
   if (cfg.assets?.favicon) setFavicon(cfg.assets.favicon);
-
   // i18n
   const t = tFactory(cfg, lang);
   document.querySelectorAll('[data-i18n]').forEach(el => { const key = el.getAttribute('data-i18n'); el.textContent = t(key, el.textContent); });

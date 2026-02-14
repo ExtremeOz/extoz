@@ -1,4 +1,4 @@
-{
+{  
   "id": "ulysses",
   "name": "Ulysses Software",
   "assets": {
@@ -20,6 +20,7 @@
     "title": {
       "en": "Request an inspection"
     },
+    "displayName": {"en" : "Ulysses Software Pty Ltd"},
     "tagline": {
       "en": "Tell us a few details and your preferred times."
     },
