@@ -14,7 +14,7 @@
     "text": "#111827",
     "muted": "#6B7280",
     "btn-radius": "8px",
-    "focus-ring": "0 0 0 3px rgba(11,95,255,0.35)",
+    "focus-ring": "0 0 0 3px rgba(11,95,255,0.35)"
   },
   "text": {
     "title": {

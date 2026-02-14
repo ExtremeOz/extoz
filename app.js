@@ -48,11 +48,23 @@ function withBase(p) {
 
   // Load tenant config
   let cfg;
-  try { const r = await fetch(`${BASE}/tenants/${tenant}.json`, { cache: 'no-cache' }); if (!r.ok) throw new Error(); cfg = await r.json(); }
-  catch { const r = await fetch(`${BASE}/tenants/default.json`, { cache: 'no-cache' }); cfg = await r.json(); }
-
+  let r;
+  try { 
+    r = await fetch(`${BASE}/tenants/${tenant}.json`, { cache: 'no-cache' });   
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+  }catch { 
+    r = await fetch(`${BASE}/tenants/default.json`, { cache: 'no-cache' }); 
+  }
+  try{  
+  if (r.ok) { 
+    cfg = await r.json(); }
+  }catch(e){ 
+    console.error(e); 
+    return; 
+  }
+  
   // Normalize asset paths to include BASE if JSON used root-relative
-  if (cfg.assets) { if (cfg.assets.logo) cfg.assets.logo = withBase(cfg.assets.logo); if (cfg.assets.favicon) cfg.assets.favicon = withBase(cfg.assets.favicon); }
+  if (cfg && cfg.assets) { if (cfg.assets.logo) cfg.assets.logo = withBase(cfg.assets.logo); if (cfg.assets.favicon) cfg.assets.favicon = withBase(cfg.assets.favicon); }
 
   // Theme & assets
   applyCssVars(cfg.cssVars);
