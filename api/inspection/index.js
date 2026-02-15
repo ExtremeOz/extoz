@@ -1,5 +1,8 @@
 import fs from "fs/promises";
 import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
 
 async function loadTenantConfig(tenantId) {
   const filePath = path.join(
@@ -22,7 +25,7 @@ async function loadTenantConfig(tenantId) {
 function buildResponse(status, body, origin) {
   return {
     status,
-    body,
+    body: typeof body === "string" ? JSON.stringify({ message: body }) : body,
     headers: {
       "Access-Control-Allow-Origin": origin || "*",
       "Access-Control-Allow-Methods": "POST, OPTIONS",
@@ -82,16 +85,20 @@ export default async function (context, req) {
     return;
   }
 
-  if (!tenant.endpoints?.verifyHttpFlow) {
-    context.res = buildResponse(500, "Tenant misconfigured", origin);
-    return;
-  }
+const flowUrl =
+  tenant.endpoints?.verifyHttpFlow ||
+  tenant.endpoints?.inspectionRequestFlow;
+
+if (!flowUrl) {
+  context.res = buildResponse(500, "Tenant misconfigured", origin);
+  return;
+}
+
 
   let response;
 
   try {
-    response = await fetch(
-      tenant.endpoints.verifyHttpFlow,
+    response = await fetch(flowUrl,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
