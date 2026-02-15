@@ -129,7 +129,9 @@ function initInspectionPage(cfg, tenant, lang) {
       address3: fd.get('address3')?.toString().trim() || null,
       service: services,
       preferences: [ toPreference(fd.get('date1')?.toString(), fd.get('time1')?.toString()), toPreference(fd.get('date2')?.toString(), fd.get('time2')?.toString()) ].filter(Boolean),
-      query: Object.fromEntries(QS.entries()), submittedUtc: new Date().toISOString()
+      query: Object.fromEntries(QS.entries()), submittedUtc: new Date().toISOString(),
+      metadata: {privacyPolicyAccepted: !!fd.get('privacyPolicy'), marketingAccepted: !!fd.get('marketingConsent'),
+        userAgent: navigator.userAgent, referrer: document.referrer, url: location.href}
     };
     // attach building numbers if relevant
     if (services.some(s => s.code === BUILDING_SERVICE_ID) || services.some(s => s.code === PREPURCH_SERVICE_ID)) {
