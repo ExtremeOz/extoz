@@ -1,6 +1,6 @@
-
 :root {
   --brand: #0B5FFF; --brand-contrast: #ffffff; --accent: #00B894;
+  --brand2: #a60bff; --brand-contrast2: #ffffff; --accent2: #00b80f;
   --bg: #ffffff; --surface: #ffffff; --text: #111827; --muted: #6B7280;
   --btn-radius: 8px; --focus-ring: 0 0 0 3px rgba(11,95,255,0.35);
 }
@@ -9,14 +9,43 @@ html, body { height: 100%; }
 body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; padding: 24px; background: var(--bg); color: var(--text); }
 input::placeholder { color: #9aa0a6; }
 input:focus::placeholder { color: #c9cdd1; }
-.container { max-width: 880px; margin: 0 auto; }
-.site-header { display:flex; align-items:center; gap:12px; margin-bottom: 16px; }
+.site-header {
+  display: flex;
+  align-items: center;           /* vertically center items */
+  justify-content: space-between;/* push tagline to the right */
+  gap: 1rem;
+}
+.site-header .left {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;                  /* enables text truncation if needed */
+}
+#logo {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 0.5rem;
+}
+.site-header .title {
+  font-size: 1.75rem;
+  font-weight: 600;
+  display: inline-block;
+  vertical-align: middle;
+}
+.site-header .tagline {
+  float: right;           /* <-- pushes to the right edge */
+  font-size: 1rem;
+  color: #555;
+  margin-top: 0.25rem;    /* tweak alignment */
+}
 .card { background: var(--surface); border: 1px solid #e5e7eb; border-radius: 12px; padding: 16px; }
-.hint { color: var(--muted); font-size: smaller;}
+.hint { color: var(--muted); font-size: smaller; font-style: italic; }
 .error { color: #b00020; margin-top: 8px; }
 .actions { display:flex; gap: 12px; margin-top: 12px; }
 .button-primary { background: var(--brand); color: var(--brand-contrast); border: none; padding: 12px 16px; border-radius: var(--btn-radius); cursor:pointer; }
 .button-primary:focus { outline: none; box-shadow: var(--focus-ring); }
+.button-secondary { background: var(--brand2); color: var(--brand-contrast2); border: none; padding: 12px 16px; border-radius: var(--btn-radius); cursor:pointer; }
+.button-secondary:focus { outline: none; box-shadow: var(--focus-ring); }
 .form-grid { display: grid; gap: 16px; }
 .row-2 { display:grid; gap: 16px; grid-template-columns: 1fr 1fr; }
 .row-3 { display:grid; gap: 16px; grid-template-columns: 1fr 1fr 1fr; }

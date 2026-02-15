@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -10,9 +9,11 @@
 </head>
 <body>
   <header class="site-header">
-    <img id="logo" alt="Tenant logo" src="/assets/default-logo.svg" height="80" />
-    <h1 data-i18n="displayName">Example Inspections</h1>  
-    <h3 data-i18n="title">Request an inspection</h3>
+    <div class="left">
+      <img id="logo" alt="Tenant logo" src="/assets/default-logo.svg" height="80" />
+      <span class="title" data-i18n="displayName">Example Inspections</span>
+    </div>
+    <span class="tagline" data-i18n="title">Request an inspection</span>
   </header>
   <main class="container">
     <p data-i18n="tagline" class="hint">Tell us a few details and your preferred times. We’ll confirm by email or SMS.</p>
@@ -77,17 +78,22 @@
           <input id="postcode" name="postcode" inputmode="numeric" pattern="^\d{4}$" placeholder="4870" required />
         </div>
       </div>
-
+      <div class="row">
+          <div class="field">
+            <label for="address3">Address Notes</label>
+            <input id="address3" name="address3" placeholder="eg. meeting client for key at site" />
+          </div>
+      </div>
       <h2>Service</h2>
       <div class="row-2">
         <div class="field">
-          <label for="service">&#42;Service</label>
-          <select id="service" name="service" required>
+          <label for="service">&#42;Service <span class="hint">(hold Ctrl/Cmd to multi-select)</span></label>
+          <select id="service" name="service" size="4" required multiple>
             <option value="">Select a service</option>
           </select>
         </div>
         <div class="field">
-          <label for="notes">Notes (optional)</label>
+          <label for="notes">Notes <span class="hint">(optional)</span></label>
           <input id="notes" name="notes" maxlength="400" placeholder="Access details, hazards, pets, etc." />
         </div>
       </div>
@@ -96,9 +102,9 @@
         <h2>Building Details</h2>
         <div class="row-2">
           <div class="field">
-            <label for="nbrBuildings">&#42; Number of buildings or structures (mandatory)</label>
-            <input id="nbrBuildings" name="nbrBuildings" type="number" min="0" />
-          </div>
+            <label for="nbrBuildings">&#42;Number of buildings or structures</label>
+            <input id="nbrBuildings" name="nbrBuildings" type="number" min="0" required/>
+          </div>          
           <div class="field">            
             <label for="nbrLounge">Number of lounge rooms</label>
             <input id="nbrLounge" name="nbrLounge" type="number" min="0" />
@@ -134,22 +140,22 @@
       <h2>Preferred times</h2>
       <div class="row-2">
         <div class="field">
-          <label for="date1">Date 1</label>
+          <label for="date1">&#42;Date 1</label>
           <input id="date1" name="date1" type="date" required />
         </div>
         <div class="field">
-          <label for="time1">Time 1</label>
+          <label for="time1">&#42;Time 1</label>
           <input id="time1" name="time1" type="time" step="1800" required />
           <div class="hint">rounds to 30‑minute increments</div>
         </div>
       </div>
       <div class="row-2">
         <div class="field">
-          <label for="date2">Date 2 (optional)</label>
+          <label for="date2">Date 2 <span class="hint">(optional)</span></label>
           <input id="date2" name="date2" type="date" />
         </div>
         <div class="field">
-          <label for="time2">Time 2 (optional)</label>
+          <label for="time2">Time 2 <span class="hint">(optional)</span></label>
           <input id="time2" name="time2" type="time" step="1800" />
         </div>
       </div>
@@ -160,11 +166,11 @@
       <div id="form-error" class="error" hidden></div>
       <div class="actions">
         <button type="submit" class="button-primary" id="submitBtn" data-i18n="cta">Submit request</button>
-        <button type="button" id="saveDraftBtn">Save draft</button>
+        <button type="button" class="button-secondary" id="saveDraftBtn">Save draft</button>
       </div>
     </form>
   </main>
-  <script type="module">window.__BASE__ = '/';</script>
+  <script type="module">window.__BASE__ = '';</script>
   <script type="module" src="/app.js"></script>
 </body>
 </html>
