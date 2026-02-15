@@ -52,8 +52,7 @@
   },
   "policy": {
     "allowedOrigins": [
-      "https://verify.example.com",
-      "https://portal.example.com"
+      "https://yellow-cliff-0a59aa800.4.azurestaticapps.net"
     ]
   },
   "endpoints": {
