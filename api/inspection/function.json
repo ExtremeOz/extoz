@@ -4,12 +4,14 @@
       "authLevel": "anonymous",
       "type": "httpTrigger",
       "direction": "in",
-      "methods": ["post"],
-      "route": "inspection"
+      "name": "req",
+      "methods": ["post", "options"]
     },
     {
       "type": "http",
-      "direction": "out"
+      "direction": "out",
+      "name": "context.res"
     }
   ]
 }
+
