@@ -1,5 +1,6 @@
 import fs from "fs/promises";
 import path from "path";
+import fetch from "node-fetch";
 import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
