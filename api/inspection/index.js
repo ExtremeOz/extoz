@@ -10,10 +10,13 @@ async function loadTenantConfig(tenantId) {
   );
 
   try {
+    msg = concat("Loading tenant config from ", filePath);
+    context.log(msg);
     const data = await fs.readFile(filePath, "utf8");
     return JSON.parse(data);
   } catch (err) {
-    console.error("Tenant load error:", err.message);
+    msg = concat(msg," : ",err.message);
+    context.log("Tenant load error:", msg);
     return null;
   }
 }
@@ -34,8 +37,7 @@ function buildResponse(status, body, origin) {
 }
 
 module.exports = async function (context, req) {
-  context.log("FUNCTION STARTED");
-
+  var msg = "";
   const origin = req.headers.origin;
 
   if (req.method === "OPTIONS") {
@@ -58,8 +60,8 @@ module.exports = async function (context, req) {
 
   const tenant = await loadTenantConfig(tenantId);
 
-  if (!tenant) {
-    context.res = buildResponse(404, "Invalid tenant", origin);
+  if (!tenant) {    
+    context.res = buildResponse(404, msg, origin);
     return;
   }
 
