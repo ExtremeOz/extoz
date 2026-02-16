@@ -1,9 +1,5 @@
 const fs = require("fs/promises");
 const path = require("path");
-const fetch = require("node-fetch");
-import { fileURLToPath } from "url";
-
-const __filename = fileURLToPath(import.meta.url);
 
 async function loadTenantConfig(tenantId) {
   const filePath = path.join(
