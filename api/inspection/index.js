@@ -51,7 +51,6 @@ module.exports = async function (context, req) {
     .toLowerCase()
     .replace(/[^a-z0-9-]/g, "");
  console.log("FUNCTION tenant " + tenantId);
-
   if (!tenantId) {
     context.res = buildResponse(400, "Missing tenant", origin);
     return;
