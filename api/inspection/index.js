@@ -1,6 +1,6 @@
-import fs from "fs/promises";
-import path from "path";
-import fetch from "node-fetch";
+const fs = require("fs/promises");
+const path = require("path");
+const fetch = require("node-fetch");
 import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -36,10 +36,10 @@ function buildResponse(status, body, origin) {
   };
 }
 
-export default async function (context, req) {
+module.exports = async function (context, req) { 
 
   const origin = req.headers.origin;
-
+ console.log("FUNCTION STARTED");
   // Handle CORS preflight
   if (req.method === "OPTIONS") {
     context.res = buildResponse(200, "", origin);
@@ -47,10 +47,10 @@ export default async function (context, req) {
   }
 
   const body = req.body || {};
-
   const tenantId = String(body.tenant || "")
     .toLowerCase()
     .replace(/[^a-z0-9-]/g, "");
+ console.log("FUNCTION tenant " + tenantId);
 
   if (!tenantId) {
     context.res = buildResponse(400, "Missing tenant", origin);
