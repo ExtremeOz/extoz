@@ -1,7 +1,8 @@
 const fs = require("fs/promises");
 const path = require("path");
 
-async function loadTenantConfig(tenantId) {
+async function loadTenantConfig(tenantId, context) {
+  context.log("CWD:", process.cwd());
   const filePath = path.join(
     process.cwd(),
     "..",
@@ -9,17 +10,17 @@ async function loadTenantConfig(tenantId) {
     `${tenantId}.json`
   );
 
+  context.log("Loading tenant config from:", filePath);
+
   try {
-    msg = concat("Loading tenant config from ", filePath);
-    context.log(msg);
     const data = await fs.readFile(filePath, "utf8");
     return JSON.parse(data);
   } catch (err) {
-    msg = concat(msg," : ",err.message);
-    context.log("Tenant load error:", msg);
+    context.log("Tenant load error:", err.message);
     return null;
   }
 }
+
 
 function buildResponse(status, body, origin) {
   return {
@@ -37,7 +38,6 @@ function buildResponse(status, body, origin) {
 }
 
 module.exports = async function (context, req) {
-  var msg = "";
   const origin = req.headers.origin;
 
   if (req.method === "OPTIONS") {
@@ -58,10 +58,10 @@ module.exports = async function (context, req) {
     return;
   }
 
-  const tenant = await loadTenantConfig(tenantId);
+  const tenant = await loadTenantConfig(tenantId, context);
 
   if (!tenant) {    
-    context.res = buildResponse(404, msg, origin);
+    context.res = buildResponse(404, "Tenant not found", origin);
     return;
   }
 
