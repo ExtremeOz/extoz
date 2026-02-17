@@ -1,23 +1,27 @@
 const fs = require("fs/promises");
 const path = require("path");
 
-async function loadTenantConfig(tenantId, context) {
-  const filePath = path.join(
-    process.cwd(),
-    "tenants",
-    `${tenantId}.json`
-  );
+async function loadTenantConfig(tenantId, context, req) {
+  const origin = req.headers.origin;
 
-  context.log("Loading tenant config from:", filePath);
+  const url = `${origin}/tenants/${tenantId}.json`;
+
+  context.log("Fetching tenant config from:", url);
 
   try {
-    const data = await fs.readFile(filePath, "utf8");
-    return JSON.parse(data);
+    const response = await fetch(url);
+    if (!response.ok) {
+      context.log("Tenant HTTP fetch failed:", response.status);
+      return null;
+    }
+
+    return await response.json();
   } catch (err) {
-    context.log("Tenant load error:", err.message);
+    context.log("Tenant fetch error:", err.message);
     return null;
   }
 }
+
 
 
 
@@ -57,7 +61,7 @@ module.exports = async function (context, req) {
     return;
   }
 
-  const tenant = await loadTenantConfig(tenantId, context);
+  const tenant = await loadTenantConfig(tenantId, context, req);
 
   if (!tenant) {    
     context.res = buildResponse(404, "Tenant not found", origin);
