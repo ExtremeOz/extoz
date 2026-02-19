@@ -217,8 +217,7 @@ function initInspectionPage(cfg, tenant, lang) {
       if (payload.building.nbrBuildings <= 0) { showError('Please specify the number of buildings/structures to be inspected.'); return;}
     }
     if (payload.phone?.startsWith('0')) payload.phone = '+61' + payload.phone.slice(1).replace(/\s+/g, '');
-    //const url = cfg.endpoints?.inspectionRequestFlow || cfg.endpoints?.verifyHttpFlow; if (!url) { showError('Submission endpoint is not configured for this tenant.'); return; }
-    const url = 'api/inspection'; // always use relative path for submission to ensure it goes to our API route, which handles tenant config and forwarding
+    const url = cfg.endpoints?.inspectionRequestFlow || ''; if (!url) { showError('Submission endpoint is not configured for this tenant.'); return; }
     setBusy(true); try { const r = await fetch(url, { method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify(payload) }); 
     if (!r.ok) throw new Error(await r.text().catch(()=>`HTTP ${r.status}`)); 
       sessionStorage.removeItem(DRAFT_KEY); alert('Thanks! Your inspection request has been submitted.'); 
