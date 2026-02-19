@@ -24,11 +24,23 @@
     "tagline": {
       "en": "Tell us a few details and your preferred times."
     },
+    "vtitle": {
+      "en": "Verify your identity"
+    },
+    "vtagline": {
+      "en": "Securely confirm your contact details to continue."
+    },
     "tagline2": {
       "en": "* indicates a required field others are optional"
     },
     "cta": {
       "en": "Submit request"
+    },
+    "vta": {
+      "en": "Verify now"
+    },
+    "terms-nutshell": {
+      "en": "Terms Summary: we will never share any of your information. You agree to allow us to verify your contact details. We will attempt to create the services appointment as requested but may be altered for availability. You wil need return a signed pre-engagement agreement which will allow us to safely conduct the inspection(s)."
     }
   },
   "services": [
@@ -45,17 +57,16 @@
       "label": "Building inspection"
     }
   ],
-  "features": {
-    "enablePhoneVerification": true,
-    "enableEmailVerification": true,
-    "showSupportChat": false
-  },
   "policy": {
     "allowedOrigins": [
       "https://yellow-cliff-0a59aa800.4.azurestaticapps.net"
-    ]
+    ],
+	  "supportEmail" : {"en": "office@cpbr.com.au"},
+	  "privacyUrl" : {"en": "https://cpbr.com.au/privacy.html"},
+	  "termsUrl" : {"en": "https://cpbr.com.au/terms.html"}
   },
   "endpoints": {
+	"verifyHttpFlow" : "api/verify",
     "inspectionRequestFlow": "https://acd06123d6dfed108b2b6f31e6923e.c5.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/d83d68207a794404ba7c0cd3509dc92f/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=jOtVht8zCLjy1WHv9DyQ6WZjbzQQtn8AOxjdScp4S88"
   }
 }

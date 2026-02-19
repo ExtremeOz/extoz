@@ -1,12 +1,12 @@
 {
   "id": "default",
-  "name": "Default Tenant",
+  "name": "A-Track-It Services",
   "assets": {
     "logo": "/assets/tenants/default/logo.svg",
     "favicon": "/assets/tenants/default/favicon.ico"
   },
   "cssVars": {
-    "brand": "#0B5FFF",
+    "brand": "#9C27B0",
     "brand-contrast": "#FFFFFF",
     "accent": "#00B894",
     "bg": "#FFFFFF",
@@ -20,42 +20,57 @@
     "title": {
       "en": "Request an inspection"
     },
-    "displayName": {"en" : "Example Inspections"},
+    "displayName": {"en" : "A-Track-It Environmental Services"},
     "tagline": {
       "en": "Tell us a few details and your preferred times."
     },
     "tagline2": {
       "en": "* indicates a required field others are optional"
     },
+    "vtitle": {
+      "en": "Verify your identity"
+    },
+    "vtagline": {
+      "en": "Securely confirm your contact details to continue."
+    },    
     "cta": {
       "en": "Submit request"
+    },
+    "vta": {
+      "en": "Verify now"
+    },
+    "terms-nutshell": {
+      "en": "Terms Summary: we will never share any of your information. You agree to allow us to verify your contact details. We will attempt to create the services appointment as requested but may be altered for availability. You wil need return a signed pre-engagement agreement which will allow us to safely conduct the inspection(s)."
     }
   },
   "services": [
     {
-      "id": "prepurchase",
-      "label": "Pre\u2011purchase inspection"
+      "id": "poolfence",
+      "label": "Pool fence inspection"
     },
     {
-      "id": "pest",
-      "label": "Pest inspection"
+      "id": "asbestos",
+      "label": "Asbestos inspection"
+    },
+    {
+      "id": "electrical",
+      "label": "Electrical safety inspection"
     },
     {
       "id": "building",
       "label": "Building inspection"
     }
   ],
-  "features": {
-    "enablePhoneVerification": true,
-    "enableEmailVerification": true,
-    "showSupportChat": false
-  },
   "policy": {
     "allowedOrigins": [
       "https://yellow-cliff-0a59aa800.4.azurestaticapps.net"
-    ]
+    ],
+	  "supportEmail" : {"en": "daniel@a-track-it.com"},
+	  "privacyUrl" : {"en": "https://a-track-it.com/privacy.html"},
+	  "termsUrl" : {"en": "https://a-track-it.com/terms.html"}
   },
   "endpoints": {
+	"verifyHttpFlow" : "api/verify",
     "inspectionRequestFlow": "https://acd06123d6dfed108b2b6f31e6923e.c5.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/d83d68207a794404ba7c0cd3509dc92f/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=jOtVht8zCLjy1WHv9DyQ6WZjbzQQtn8AOxjdScp4S88"
   }
 }

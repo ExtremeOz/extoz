@@ -38,6 +38,7 @@ input:focus::placeholder { color: #c9cdd1; }
   color: #555;
   margin-top: 0.25rem;    /* tweak alignment */
 }
+.site-footer { text-align: center; color: var(--muted); font-size: smaller; margin-top: 48px; }
 .card { background: var(--surface); border: 1px solid #e5e7eb; border-radius: 12px; padding: 16px; }
 .hint { color: var(--muted); font-size: smaller; font-style: italic; }
 .error { color: #b00020; margin-top: 8px; }
@@ -49,6 +50,7 @@ input:focus::placeholder { color: #c9cdd1; }
 .form-grid { display: grid; gap: 16px; }
 .row-2 { display:grid; gap: 16px; grid-template-columns: 1fr 1fr; }
 .row-3 { display:grid; gap: 16px; grid-template-columns: 1fr 1fr 1fr; }
+.field input[type="checkbox"] {width: 20px; height: 20px; margin-right: 8px; vertical-align: middle;}
 .field label { display:block; font-weight:600; margin-bottom:6px; }
 .field input, .field select, .field textarea { width:100%; padding:10px; border-radius:8px; border:1px solid #d1d5db; background: var(--surface); color: inherit; }
 @media (max-width: 760px) { .row-2, .row-3 { grid-template-columns: 1fr; } }

@@ -73,7 +73,9 @@ module.exports = async function (context, req) {
     return;
   }
 
-  const flowUrl = tenant.endpoints?.inspectionRequestFlow;
+  const flowUrl =
+    tenant.endpoints?.verifyHttpFlow;
+
   if (!flowUrl) {
     context.res = buildResponse(500, "Tenant misconfigured", origin);
     return;
