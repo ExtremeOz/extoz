@@ -43,11 +43,12 @@ function withBase(p) {
   if (!p) return p; if (/^https?:\/\//i.test(p)) return p; if (p.startsWith('/')) return BASE + p; return `${BASE}/${p.replace(/^\/+/, '')}`;
 }
 // show/hide building fields when appropriate
-function updateBuildingFields(form) {
+function updateBuildingFields() {
+  const form = document.getElementById('inspection-form'); if (!form) return;
   const selected = Array.from(form.elements['service'].selectedOptions).map(opt => ({ code: opt.value, quantity: 1 }));
   const should = (selected.some(s => s.code === BUILDING_SERVICE_ID) || selected.some(s => s.code === PREPURCH_SERVICE_ID));
   const container = document.getElementById('building-details');
-  if (container) { container.hidden = !should; container.setAttribute('aria-hidden', String(!should)); }
+  if (container){ container.hidden = !should; container.setAttribute('aria-hidden', String(!should)); }
 }
 
 (async function boot(){
@@ -176,8 +177,7 @@ function initInspectionPage(cfg, tenant, lang) {
   const errorEl = document.getElementById('form-error');
   const showError = (m)=>{ if (errorEl) { errorEl.textContent = m; errorEl.hidden = !m; } };
   const serviceSel = document.getElementById('service'); if (serviceSel && Array.isArray(cfg.services)) { for (const s of cfg.services) { const o = document.createElement('option'); o.value = s.id; o.textContent = s.label; serviceSel.appendChild(o);} }
-  serviceSel?.addEventListener('change', updateBuildingFields(form));
-  updateBuildingFields(form);
+  serviceSel?.addEventListener('change', updateBuildingFields);
   const DRAFT_KEY = `draft:${tenant}`; try { const d = JSON.parse(sessionStorage.getItem(DRAFT_KEY) || 'null'); if (d && form) { for (const [k,v] of Object.entries(d)) { const el = form.elements.namedItem(k); if (el && 'value' in el) el.value = v; } } } catch {}
   for (const id of ['time1','time2']) { const el = document.getElementById(id); el?.addEventListener('change', ()=>{ el.value = roundTo30Min(el.value); }); }
   saveDraftBtn?.addEventListener('click', ()=>{ if (!form) return; const data = Object.fromEntries(new FormData(form).entries()); sessionStorage.setItem(DRAFT_KEY, JSON.stringify(data)); alert('Draft saved on this device.'); });
@@ -199,8 +199,8 @@ function initInspectionPage(cfg, tenant, lang) {
       address3: fd.get('address3')?.toString().trim() || null,
       service: services,
       preferences: [ toPreference(fd.get('date1')?.toString(), fd.get('time1')?.toString()), toPreference(fd.get('date2')?.toString(), fd.get('time2')?.toString()) ].filter(Boolean),
-      query: Object.fromEntries(QS.entries()), submittedUtc: new Date().toISOString(),
-      metadata: {privacyPolicyAccepted: !!fd.get('privacyPolicy'), marketingAccepted: !!fd.get('marketingConsent'),
+      submittedUtc: new Date().toISOString(),
+      metadata: {policyAccepted: !!fd.get('privacyPolicy'), termsAccepted: !!fd.get('termsConsent'),
         userAgent: navigator.userAgent, referrer: document.referrer}
     };
     // attach building numbers if relevant
