@@ -119,7 +119,7 @@ function initVerifyPage(cfg, tenant, lang) {
   if (btn) {
     btn.addEventListener('click', async () => {
       showError('');
-      if (!url) {
+      if (!url || (url.length <= 0)){
         showError('No verification endpoint is configured for this tenant.');
         return;
       }else{
@@ -204,8 +204,7 @@ function initInspectionPage(cfg, tenant, lang) {
       serviceNotes: fd.get('notes')?.toString().trim() || null,
       preferences: [ toPreference(fd.get('date1')?.toString(), fd.get('time1')?.toString()), toPreference(fd.get('date2')?.toString(), fd.get('time2')?.toString()) ].filter(Boolean),
       submittedUtc: new Date().toISOString(),
-      metadata: {policyAccepted: !!fd.get('privacyPolicy'), termsAccepted: !!fd.get('termsConsent'),
-        userAgent: navigator.userAgent, referrer: document.referrer}
+      metadata: {policyAccepted: !!fd.get('privacyPolicy'), termsAccepted: !!fd.get('termsConsent')}
     };
     // attach building numbers if relevant
     if (services.some(s => s.code === BUILDING_SERVICE_ID) || services.some(s => s.code === PREPURCH_SERVICE_ID)) {
@@ -223,7 +222,7 @@ function initInspectionPage(cfg, tenant, lang) {
     }
     if (payload.phone?.startsWith('0')) payload.phone = '+61' + payload.phone.slice(1).replace(/\s+/g, '');
     const url = cfg.endpoints?.inspectionRequestFlow || ''; 
-    if (!url) { showError('Submission endpoint is not configured for this tenant.'); return; }else{ url = 'api/inspection'; }
+    if (!url || (url.length <= 0)) { showError('Submission endpoint is not configured for this tenant.'); return; }else{ url = 'api/inspection'; }
     setBusy(true); try { const r = await fetch(url, { method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify(payload) }); 
     if (!r.ok) throw new Error(await r.text().catch(()=>`HTTP ${r.status}`)); 
       sessionStorage.removeItem(DRAFT_KEY); alert('Thanks! Your inspection request has been submitted.'); 
