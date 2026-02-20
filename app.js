@@ -122,6 +122,8 @@ function initVerifyPage(cfg, tenant, lang) {
       if (!url) {
         showError('No verification endpoint is configured for this tenant.');
         return;
+      }else{
+        url = 'api/verify'; 
       }
 
       // Build payload with idempotencyKey included
@@ -191,9 +193,10 @@ function initInspectionPage(cfg, tenant, lang) {
   
     const payload = {
       tenant, lang, source: 'inspection-form',
-      idempotencyKey: uuidv4(),
+      idempotencyKey: uuidv4(),title: fd.get('title')?.toString().trim() || null,
       firstName: fd.get('firstName')?.toString().trim(), lastName: fd.get('lastName')?.toString().trim(),
       email: fd.get('email')?.toString().trim().toLowerCase(), phone: fd.get('phone')?.toString().trim(),
+      prefMethod: fd.get('contactMethod')?.toString().trim(),
       address1: fd.get('address1')?.toString().trim(), address2: fd.get('address2')?.toString().trim() || null,
       suburb: fd.get('suburb')?.toString().trim(), state: fd.get('state')?.toString().trim(), postcode: fd.get('postcode')?.toString().trim(), country: 'AU',
       address3: fd.get('address3')?.toString().trim() || null,
@@ -219,7 +222,8 @@ function initInspectionPage(cfg, tenant, lang) {
       if (payload.building.nbrBuildings <= 0) { showError('Please specify the number of buildings/structures to be inspected.'); return;}
     }
     if (payload.phone?.startsWith('0')) payload.phone = '+61' + payload.phone.slice(1).replace(/\s+/g, '');
-    const url = cfg.endpoints?.inspectionRequestFlow || ''; if (!url) { showError('Submission endpoint is not configured for this tenant.'); return; }
+    const url = cfg.endpoints?.inspectionRequestFlow || ''; 
+    if (!url) { showError('Submission endpoint is not configured for this tenant.'); return; }else{ url = 'api/inspection'; }
     setBusy(true); try { const r = await fetch(url, { method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify(payload) }); 
     if (!r.ok) throw new Error(await r.text().catch(()=>`HTTP ${r.status}`)); 
       sessionStorage.removeItem(DRAFT_KEY); alert('Thanks! Your inspection request has been submitted.'); 

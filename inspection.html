@@ -20,7 +20,11 @@
     <form id="inspection-form" novalidate class="card form-grid">
       <h2>Contact details</h2>
       <p data-i18n="tagline2" class="hint">&#42; indicates a required field others are optional</p>
-      <div class="row-2">
+      <div class="row-3">
+        <div class="field">
+          <label for="title">Title</label>
+          <input id="title" name="title" autocomplete="honorific-prefix" size="4"/>
+        </div>
         <div class="field">
           <label for="firstName">&#42;First name</label>
           <input id="firstName" name="firstName" autocomplete="given-name" required />
