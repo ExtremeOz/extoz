@@ -115,7 +115,7 @@ function initVerifyPage(cfg, tenant, lang) {
     }
   }
   // Choose endpoint: explicit verify flow 
-  const url = (cfg.endpoints?.verifyHttpFlow || '').trim();  
+  var url = (cfg.endpoints?.verifyHttpFlow || '').trim();  
   if (btn) {
     btn.addEventListener('click', async () => {
       showError('');
@@ -221,7 +221,7 @@ function initInspectionPage(cfg, tenant, lang) {
       if (payload.building.nbrBuildings <= 0) { showError('Please specify the number of buildings/structures to be inspected.'); return;}
     }
     if (payload.phone?.startsWith('0')) payload.phone = '+61' + payload.phone.slice(1).replace(/\s+/g, '');
-    const url = cfg.endpoints?.inspectionRequestFlow || ''; 
+    var url = cfg.endpoints?.inspectionRequestFlow || ''; 
     if (!url || (url.length <= 0)) { showError('Submission endpoint is not configured for this tenant.'); return; }else{ url = 'api/inspection'; }
     setBusy(true); try { const r = await fetch(url, { method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify(payload) }); 
     if (!r.ok) throw new Error(await r.text().catch(()=>`HTTP ${r.status}`)); 
