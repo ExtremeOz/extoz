@@ -41,7 +41,10 @@
     },
     "terms-nutshell": {
       "en": "Terms Summary: we will never share any of your information. You agree to allow us to verify your contact details. We will attempt to create the services appointment as requested but may be altered for availability. You wil need return a signed pre-engagement agreement which will allow us to safely conduct the inspection(s)."
-    }
+    },
+    "supportEmail" : {"en": "office@cpbr.com.au"},
+    "supportPhone" : {"en": "Carla: 0400 585 211"},
+    "drft": {"en": "Save draft"}
   },
   "services": [
     {
@@ -61,7 +64,8 @@
     "allowedOrigins": [
       "https://yellow-cliff-0a59aa800.4.azurestaticapps.net"
     ],
-	  "supportEmail" : {"en": "office@cpbr.com.au"},
+	  "mailto" : {"en": "mailto:office@cpbr.com.au"},
+	  "telto" : {"en": "tel:+61400585211"},
 	  "privacyUrl" : {"en": "https://cpbr.com.au/privacy.html"},
 	  "termsUrl" : {"en": "https://cpbr.com.au/terms.html"}
   },

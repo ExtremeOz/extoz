@@ -13,7 +13,7 @@
       <img id="logo" alt="Tenant logo" src="/assets/default-logo.svg" height="80" />
       <span class="title" data-i18n="displayName">Example Inspections</span>
     </div>
-    <span class="tagline" data-i18n="title">Request an inspection</span>
+    <span class="tagline" data-i18n="title">Request an Inspection</span>
   </header>
   <main class="container">
     <p data-i18n="tagline" class="hint">Tell us a few details and your preferred times. We’ll confirm by email or SMS.</p>
@@ -153,7 +153,15 @@
         </div>
         <div class="field">
           <label for="time1">&#42;Time 1</label>
-          <input id="time1" name="time1" type="time" step="1800" required />
+          <input type="time"
+            id="time1"
+            name="time1"            
+            min="08:00"
+            max="17:00"
+            step="1800"
+            pattern="^([0-1][0-9]|2[0-3]):(00|30)$"
+            required
+          />
           <div class="hint">rounds to 30‑minute increments</div>
         </div>
       </div>
@@ -164,7 +172,15 @@
         </div>
         <div class="field">
           <label for="time2">Time 2 <span class="hint">(optional)</span></label>
-          <input id="time2" name="time2" type="time" step="1800" />
+          <input type="time"
+            id="time2"
+            name="time2"            
+            min="08:00"
+            max="17:00"
+            step="1800"
+            pattern="^([0-1][0-9]|2[0-3]):(00|30)$"
+            required
+          />
         </div>
       </div>
       <div class="row-3">
@@ -185,10 +201,13 @@
       <div id="form-error" class="error" hidden></div>
       <div class="actions">
         <button type="submit" class="button-primary" id="submitBtn" data-i18n="cta">Submit request</button>
-        <button type="button" class="button-secondary" id="saveDraftBtn">Save draft</button>
+        <button type="button" class="button-secondary" id="saveDraftBtn" data-i18n="drft">Save draft</button>
       </div>
     </form>
   </main>
+  <footer class="site-footer">
+    <div class="">Need help? Click to email <a id="supportEmail" title="support email" data-policy="mailto" href="mailto:"><span data-i18n="supportEmail"></span></a> or call <a id="supportPhone" title="support phone" data-policy="telto" href="tel:"><span data-i18n="supportPhone"></span></a></div>
+  </footer>  
   <script type="module">window.__BASE__ = '';</script>
   <script type="module" src="/app.js"></script>
 </body>

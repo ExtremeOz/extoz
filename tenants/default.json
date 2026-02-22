@@ -18,7 +18,7 @@
   },
   "text": {
     "title": {
-      "en": "Request an inspection"
+      "en": "Request an Inspection"
     },
     "displayName": {"en" : "A-Track-It Environmental Services"},
     "tagline": {
@@ -65,7 +65,8 @@
     "allowedOrigins": [
       "https://yellow-cliff-0a59aa800.4.azurestaticapps.net"
     ],
-	  "supportEmail" : {"en": "daniel@a-track-it.com"},
+	  "mailto" : {"en": "mailto:admin@a-track-it.com"}, 
+	  "telto" : {"en": "tel:+61433333333"},    
 	  "privacyUrl" : {"en": "https://a-track-it.com/privacy.html"},
 	  "termsUrl" : {"en": "https://a-track-it.com/terms.html"}
   },

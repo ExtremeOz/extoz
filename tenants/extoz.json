@@ -41,7 +41,10 @@
     },
     "terms-nutshell": {
       "en": "Terms Summary: we will never share any of your information. You agree to allow us to verify your contact details. We will attempt to create the services appointment as requested but may be altered for availability. You wil need return a signed pre-engagement agreement which will allow us to safely conduct the inspection(s)."
-    }
+    },
+    "supportEmail" : {"en": "Cairns Pre-Purchase Building Inspections"},
+    "supportPhone" : {"en": "0436 03 02 05"},
+    "drft": {"en": "Save draft"}    
   },
   "services": [
     {
@@ -65,7 +68,8 @@
     "allowedOrigins": [
       "https://yellow-cliff-0a59aa800.4.azurestaticapps.net"
     ],
-	  "supportEmail" : {"en": "daniel@extremeoz.net"},
+	  "mailto" : {"en": "mailto:daniel@extremeoz.net"},    
+    "telto" : {"en": "tel:+61436030205"},  
 	  "privacyUrl" : {"en": "https://extremeoz.net/privacy.html"},
 	  "termsUrl" : {"en": "https://extremeoz.net/terms.html"}
   },

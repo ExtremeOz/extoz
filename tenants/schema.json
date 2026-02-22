@@ -145,7 +145,25 @@
             }
           },
           "additionalProperties": false
-        }
+        },
+        "supportEmail": {
+          "type": "object",
+          "patternProperties": {
+            "^[a-z]{2}(-[A-Z]{2})?$": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "supportPhone": {
+          "type": "object",
+          "patternProperties": {
+            "^[a-z]{2}(-[A-Z]{2})?$": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }        
       }
     },
     "services": {
@@ -183,9 +201,13 @@
             "pattern": "^https://"
           }
         },
-        "supportEmail": {
+        "mailto": {
           "type": "string",
           "format": "email"
+        },
+        "telto": {
+          "type": "string",
+          "format": "tel"
         },
         "privacyUrl": {
           "type": "string",
@@ -200,13 +222,13 @@
     "endpoints": {
       "type": "object",
       "additionalProperties": false,
-      "minProperties": 1,
+      "minProperties": 2,
       "properties": {
         "verifyHttpFlow": {
           "type": "string",
           "format": "uri"
         },
-        "auditDataverse": {
+        "inspectionRequestFlow": {
           "type": "string",
           "format": "uri"
         }
