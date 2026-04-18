@@ -39,6 +39,14 @@ function roundTo30Min(value) {
   if (!value) return value; const [h, m] = value.split(':').map(Number); if (Number.isNaN(h) || Number.isNaN(m)) return value;
   const total = h*60 + m; const r = Math.round(total/30)*30; const hh = String(Math.floor(r/60)).padStart(2,'0'); const mm = String(r%60).padStart(2,'0'); return `${hh}:${mm}`;
 }
+function roundToPeriod(value) {
+  switch(value) {
+    case 'morning': return '09:00';
+    case 'afternoon': return '13:00';
+    case 'evening': return '17:00';
+    default: return value;
+  }
+}
 function withBase(p) {
   if (!p) return p; if (/^https?:\/\//i.test(p)) return p; if (p.startsWith('/')) return BASE + p; return `${BASE}/${p.replace(/^\/+/, '')}`;
 }
@@ -181,7 +189,7 @@ function initInspectionPage(cfg, tenant, lang) {
   const serviceSel = document.getElementById('service'); if (serviceSel && Array.isArray(cfg.services)) { for (const s of cfg.services) { const o = document.createElement('option'); o.value = s.id; o.textContent = s.label; serviceSel.appendChild(o);} }
   serviceSel?.addEventListener('change', updateBuildingFields);
   const DRAFT_KEY = `draft:${tenant}`; try { const d = JSON.parse(sessionStorage.getItem(DRAFT_KEY) || 'null'); if (d && form) { for (const [k,v] of Object.entries(d)) { const el = form.elements.namedItem(k); if (el && 'value' in el) el.value = v; } } } catch {}
-  for (const id of ['time1','time2']) { const el = document.getElementById(id); el?.addEventListener('change', ()=>{ el.value = roundTo30Min(el.value); }); }
+  for (const id of ['time1','time2']) { const el = document.getElementById(id); el?.addEventListener('change', ()=>{ el.value = roundToPeriod(el.value); }); }
   saveDraftBtn?.addEventListener('click', ()=>{ if (!form) return; const data = Object.fromEntries(new FormData(form).entries()); sessionStorage.setItem(DRAFT_KEY, JSON.stringify(data)); alert('Draft saved on this device.'); });
   form?.addEventListener('submit', async (e)=>{
     e.preventDefault(); showError(''); const website = form.website?.value?.trim(); if (website) { alert('Thank you! We will be in touch shortly.'); form.reset(); return; }
@@ -231,5 +239,5 @@ function initInspectionPage(cfg, tenant, lang) {
     finally { setBusy(false); }
   });
   function setBusy(b){ if (!submitBtn) return; submitBtn.disabled = !!b; submitBtn.textContent = b ? 'Submitting…' : 'Submit request'; }
-  function toPreference(d,t){ if (!d && !t) return null; const time = roundTo30Min(t || '09:00'); return { date: d || null, time, localDateTime: d ? `${d}T${time}` : null }; }
+  function toPreference(d,t){ if (!d && !t) return null; const time = roundToPeriod(t || '09:00'); return { date: d || null, time, localDateTime: d ? `${d}T${time}` : null }; }
 }
