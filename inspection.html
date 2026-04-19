@@ -48,7 +48,7 @@
           <label for="contactMethod">Preferred contact method</label>
           <select id="contactMethod" name="contactMethod" required>
             <option value="">Select</option>
-            <option>Email</option><option>SMS</option><option>Either</option>
+            <option>Email</option><option>SMS</option><option>Phone</option>
           </select>
         </div>
       </div>
@@ -152,8 +152,9 @@
           <input id="date1" name="date1" type="date" required />
         </div>
         <div class="field">
-          <label for="time1">&#42;Time of Day</label>
-            <select id="time1" name="time1" required>
+          <label for="timeSel1">&#42;Time of Day</label>
+           <input id="time1" name="time1" type="hidden"  />
+            <select id="timeSel1" name="timeSel1" required>
               <option value="">Select a time</option>
               <option>Morning</option>
               <option>Midday</option>
@@ -187,8 +188,9 @@
           <input id="date2" name="date2" type="date" />
         </div>
         <div class="field">
-          <label for="time2">Time of Day <span class="hint">(optional)</span></label>
-            <select id="time2" name="time2">
+          <label for="timeSel2">Time of Day <span class="hint">(optional)</span></label>
+          <input id="time2" name="time2" type="hidden"  />
+            <select id="timeSel2" name="timeSel2">
               <option value="">Select time</option>
               <option>Morning</option>
               <option>Midday</option>
