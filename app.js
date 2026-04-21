@@ -40,7 +40,7 @@ function roundTo30Min(value) {
   const total = h*60 + m; const r = Math.round(total/30)*30; const hh = String(Math.floor(r/60)).padStart(2,'0'); const mm = String(r%60).padStart(2,'0'); return `${hh}:${mm}`;
 }
 function roundToPeriod(value) {
-  switch(value) {
+  switch(value.toLowerCase()) {
     case 'morning': return '09:00';
     case 'afternoon': return '13:00';
     case 'evening': return '17:00';
@@ -198,7 +198,14 @@ function initInspectionPage(cfg, tenant, lang) {
       // Multi-select services => array of { code, quantity: 1 }
     const services = Array.from(form.elements['service'].selectedOptions)
       .map(opt => ({ code: opt.value, quantity: 1 }));   
-  
+    if (services.length <= 0) { showError('Please select at least one service.'); return; }
+    if (fd.get('privacyPolicy') !== 'on') { showError('You must accept the privacy policy to submit your request.'); return; }
+    if (fd.get('termsConsent') !== 'on') { showError('You must accept the terms and conditions to submit your request.'); return; }
+    if (fd.get('email') && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fd.get('email').toString().trim())) { showError('Please enter a valid email address.'); return; }
+    if (fd.get('phone') && !/^\+?[0-9\s\-()]+$/.test(fd.get('phone').toString().trim())) { showError('Please enter a valid phone number.'); return; }
+    if (fd.get('postcode') && !/^\d{4,10}$/.test(fd.get('postcode').toString().trim())) { showError('Please enter a valid postcode.'); return; }
+    if (fd.get('time1') && !/^([01]\d|2[0-3]):?([0-5]\d)$/.test(fd.get('time1').toString().trim())) { showError('Please enter a valid time for preference 1.'); return; }
+    if (fd.get('time2') && !/^([01]\d|2[0-3]):?([0-5]\d)$/.test(fd.get('time2').toString().trim())) { showError('Please enter a valid time for preference 2.'); return; }
     const payload = {
       tenant, lang, source: 'inspection-form',
       idempotencyKey: uuidv4(),title: fd.get('title')?.toString().trim() || null,
