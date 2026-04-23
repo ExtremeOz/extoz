@@ -194,6 +194,10 @@ function initInspectionPage(cfg, tenant, lang) {
   form?.addEventListener('submit', async (e)=>{
     e.preventDefault(); showError(''); const website = form.website.value?.trim(); if (website) { alert('Thank you! We will be in touch shortly.'); form.reset(); return; }
     if (!form.checkValidity()) { showError('Please fix the highlighted fields and try again.'); form.reportValidity?.(); return; }
+    const fd = new FormData(form);
+      // Multi-select services => array of { code, quantity: 1 }
+    const services = Array.from(form.elements['service'].selectedOptions)
+      .map(opt => ({ code: opt.value, quantity: 1 }));   
     if (fd.get('privacyPolicy') !== 'on') { showError('You must accept the privacy policy to submit your request.'); return; }
     if (fd.get('termsConsent') !== 'on') { showError('You must accept the terms and conditions to submit your request.'); return; }
     if (fd.get('email') && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fd.get('email').toString().trim())) { showError('Please enter a valid email address.'); return; }
@@ -201,11 +205,7 @@ function initInspectionPage(cfg, tenant, lang) {
     if (fd.get('postcode') && !/^\d{4,10}$/.test(fd.get('postcode').toString().trim())) { showError('Please enter a valid postcode.'); return; }
     //if (fd.get('time1') && !/^([01]\d|2[0-3]):?([0-5]\d)$/.test(fd.get('time1').toString().trim())) { showError('Please enter a valid time for preference 1.'); return; }
    // if (fd.get('time2') && !/^([01]\d|2[0-3]):?([0-5]\d)$/.test(fd.get('time2').toString().trim())) { showError('Please enter a valid time for preference 2.'); return; }    
-    const fd = new FormData(form);
-      // Multi-select services => array of { code, quantity: 1 }
-    const services = Array.from(form.elements['service'].selectedOptions)
-      .map(opt => ({ code: opt.value, quantity: 1 }));   
-
+    if (services.length === 0) { showError('Please select at least one service.'); return; }
     const payload = {
       tenant, lang, source: 'inspection-form',
       idempotencyKey: uuidv4(),title: fd.get('title')?.toString().trim() || null,
