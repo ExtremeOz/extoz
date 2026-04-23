@@ -42,8 +42,8 @@ function roundTo30Min(value) {
 function roundToPeriod(value) {
   switch(value.toLowerCase()) {
     case 'morning': return '09:00';
-    case 'afternoon': return '13:00';
-    case 'evening': return '17:00';
+    case 'afternoon': return '12:00';
+    case 'evening': return '15:00';
     default: return value;
   }
 }
@@ -194,18 +194,19 @@ function initInspectionPage(cfg, tenant, lang) {
   form?.addEventListener('submit', async (e)=>{
     e.preventDefault(); showError(''); const website = form.website?.value?.trim(); if (website) { alert('Thank you! We will be in touch shortly.'); form.reset(); return; }
     if (!form.checkValidity()) { showError('Please fix the highlighted fields and try again.'); form.reportValidity?.(); return; }
-    const fd = new FormData(form);
-      // Multi-select services => array of { code, quantity: 1 }
-    const services = Array.from(form.elements['service'].selectedOptions)
-      .map(opt => ({ code: opt.value, quantity: 1 }));   
     if (services.length <= 0) { showError('Please select at least one service.'); return; }
     if (fd.get('privacyPolicy') !== 'on') { showError('You must accept the privacy policy to submit your request.'); return; }
     if (fd.get('termsConsent') !== 'on') { showError('You must accept the terms and conditions to submit your request.'); return; }
     if (fd.get('email') && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fd.get('email').toString().trim())) { showError('Please enter a valid email address.'); return; }
     if (fd.get('phone') && !/^\+?[0-9\s\-()]+$/.test(fd.get('phone').toString().trim())) { showError('Please enter a valid phone number.'); return; }
     if (fd.get('postcode') && !/^\d{4,10}$/.test(fd.get('postcode').toString().trim())) { showError('Please enter a valid postcode.'); return; }
-    if (fd.get('time1') && !/^([01]\d|2[0-3]):?([0-5]\d)$/.test(fd.get('time1').toString().trim())) { showError('Please enter a valid time for preference 1.'); return; }
-    if (fd.get('time2') && !/^([01]\d|2[0-3]):?([0-5]\d)$/.test(fd.get('time2').toString().trim())) { showError('Please enter a valid time for preference 2.'); return; }
+    //if (fd.get('time1') && !/^([01]\d|2[0-3]):?([0-5]\d)$/.test(fd.get('time1').toString().trim())) { showError('Please enter a valid time for preference 1.'); return; }
+   // if (fd.get('time2') && !/^([01]\d|2[0-3]):?([0-5]\d)$/.test(fd.get('time2').toString().trim())) { showError('Please enter a valid time for preference 2.'); return; }    
+    const fd = new FormData(form);
+      // Multi-select services => array of { code, quantity: 1 }
+    const services = Array.from(form.elements['service'].selectedOptions)
+      .map(opt => ({ code: opt.value, quantity: 1 }));   
+
     const payload = {
       tenant, lang, source: 'inspection-form',
       idempotencyKey: uuidv4(),title: fd.get('title')?.toString().trim() || null,
@@ -238,10 +239,14 @@ function initInspectionPage(cfg, tenant, lang) {
     if (payload.phone?.startsWith('0')) payload.phone = '+61' + payload.phone.slice(1).replace(/\s+/g, '');
     var url = cfg.endpoints?.inspectionRequestFlow || ''; 
     if (!url || (url.length <= 0)) { showError('Submission endpoint is not configured for this tenant.'); return; }else{ url = 'api/inspection'; }
-    setBusy(true); try { const r = await fetch(url, { method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify(payload) }); 
-    if (!r.ok) throw new Error(await r.text().catch(()=>`HTTP ${r.status}`)); 
+      setBusy(true); try { const r = await fetch(url, { method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify(payload) }); 
+      if (!r.ok) throw new Error(await r.text().catch(()=>`HTTP ${r.status}`)); 
+      else {
+        form.website?.value = r.headers.get('location');
+      }
       sessionStorage.removeItem(DRAFT_KEY); alert('Thanks! Your inspection request has been submitted.'); 
-      form.reset(); }
+      form.reset(); 
+    }
     catch(err){ console.error(err); showError('Something went wrong submitting your request. Please try again.'); }
     finally { setBusy(false); }
   });
