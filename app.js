@@ -173,7 +173,7 @@ function initVerifyPage(cfg, tenant, lang) {
         alert('Thanks! We’ve verified your details.');
       } catch (e) {
         console.error(e);
-        showError('Could not verify right now. Please try again.');
+        showError('Could not verify right now. Please try again.' + (e.message ? ` (${e.message})` : ''));
       } finally {
         btn.disabled = false;
         btn.textContent = oldText;
@@ -192,9 +192,8 @@ function initInspectionPage(cfg, tenant, lang) {
   for (const id of ['timeSel1','timeSel2']) { const el = document.getElementById(id); el?.addEventListener('change', ()=>{ if (el.id == 'timeSel1') document.getElementById('time1').value = roundToPeriod(el.value); else document.getElementById('time2').value = roundToPeriod(el.value); }); }
   saveDraftBtn?.addEventListener('click', ()=>{ if (!form) return; const data = Object.fromEntries(new FormData(form).entries()); sessionStorage.setItem(DRAFT_KEY, JSON.stringify(data)); alert('Draft saved on this device.'); });
   form?.addEventListener('submit', async (e)=>{
-    e.preventDefault(); showError(''); const website = form.website?.value?.trim(); if (website) { alert('Thank you! We will be in touch shortly.'); form.reset(); return; }
+    e.preventDefault(); showError(''); const website = form.website.value?.trim(); if (website) { alert('Thank you! We will be in touch shortly.'); form.reset(); return; }
     if (!form.checkValidity()) { showError('Please fix the highlighted fields and try again.'); form.reportValidity?.(); return; }
-    if (services.length <= 0) { showError('Please select at least one service.'); return; }
     if (fd.get('privacyPolicy') !== 'on') { showError('You must accept the privacy policy to submit your request.'); return; }
     if (fd.get('termsConsent') !== 'on') { showError('You must accept the terms and conditions to submit your request.'); return; }
     if (fd.get('email') && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fd.get('email').toString().trim())) { showError('Please enter a valid email address.'); return; }
@@ -249,7 +248,7 @@ function initInspectionPage(cfg, tenant, lang) {
       sessionStorage.removeItem(DRAFT_KEY); alert('Thanks! Your inspection request has been submitted.'); 
       form.reset(); 
     }
-    catch(err){ console.error(err); showError('Something went wrong submitting your request. Please try again. ' + err.message); }
+    catch(err){ console.error(err); showError('Something went wrong submitting your request. Please try again. ' + (err.message ? ` (${err.message})` : '')); }
     finally { setBusy(false); }
   });
   function setBusy(b){ if (!submitBtn) return; submitBtn.disabled = !!b; submitBtn.textContent = b ? 'Submitting…' : 'Submit request'; }
