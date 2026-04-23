@@ -242,7 +242,7 @@ function initInspectionPage(cfg, tenant, lang) {
       setBusy(true); try { const r = await fetch(url, { method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify(payload) }); 
       if (!r.ok) throw new Error(await r.text().catch(()=>`HTTP ${r.status}`)); 
       else {
-        form.website?.value = r.headers.get('location');
+        form.website?.value = url;
       }
       sessionStorage.removeItem(DRAFT_KEY); alert('Thanks! Your inspection request has been submitted.'); 
       form.reset(); 
