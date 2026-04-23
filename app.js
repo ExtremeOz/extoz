@@ -238,16 +238,18 @@ function initInspectionPage(cfg, tenant, lang) {
     }
     if (payload.phone?.startsWith('0')) payload.phone = '+61' + payload.phone.slice(1).replace(/\s+/g, '');
     var url = cfg.endpoints?.inspectionRequestFlow || ''; 
-    if (!url || (url.length <= 0)) { showError('Submission endpoint is not configured for this tenant.'); return; }else{ url = 'api/inspection'; }
-      setBusy(true); try { const r = await fetch(url, { method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify(payload) }); 
+    if (!url) { showError('Submission endpoint is not configured for this tenant.'); return; }
+
+    setBusy(true); 
+    try { const r = await fetch(url, { method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify(payload) }); 
       if (!r.ok) throw new Error(await r.text().catch(()=>`HTTP ${r.status}`)); 
       else {
-        form.website?.value = url;
+        if (form.website) { form.website.value = url;}
       }
       sessionStorage.removeItem(DRAFT_KEY); alert('Thanks! Your inspection request has been submitted.'); 
       form.reset(); 
     }
-    catch(err){ console.error(err); showError('Something went wrong submitting your request. Please try again.'); }
+    catch(err){ console.error(err); showError('Something went wrong submitting your request. Please try again. ' + err.message); }
     finally { setBusy(false); }
   });
   function setBusy(b){ if (!submitBtn) return; submitBtn.disabled = !!b; submitBtn.textContent = b ? 'Submitting…' : 'Submit request'; }
