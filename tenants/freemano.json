@@ -2,7 +2,7 @@
   "id": "freemano",
   "name": "Freemano Pty Ltd",
   "assets": {
-    "logo": "/assets/tenants/freemano/cpbr_original.png",
+    "logo": "/assets/tenants/freemano/cpbr_512.png",
     "favicon": "/assets/tenants/freemano/cpbr_icon.ico"
   },
   "cssVars": {

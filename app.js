@@ -109,12 +109,12 @@ function initVerifyPage(cfg, tenant, lang) {
       err.hidden = !m;
     }
   };
-
+ 
   // Helper to read query params
   const getParam = (k) => new URLSearchParams(location.search).get(k);
   // Pull values from URL
-  const idempotencyKey = getParam('idempotencyKey'); // <-- NEW
-  const target = getParam('target'); // optional param to indicate where user came from (e.g., "email-link", "sms-link", "dashboard", etc.) for better logging/analytics in your flow
+  const token = getParam('token'); // <-- NEW
+  const target = getParam('type'); // optional param to indicate where user came from (e.g., "email-link", "sms-link", "dashboard", etc.) for better logging/analytics in your flow
   if (msg && target) {
     if (target.lastIndexOf('email', 0) === -1) {
       msg.textContent = 'When you click verify we will confirm you phone details you provided.';
@@ -139,8 +139,8 @@ function initVerifyPage(cfg, tenant, lang) {
         tenant,
         lang,
         source: 'verify-page',
-        target: target || null,
-        idempotencyKey: idempotencyKey || null,          // <-- NEW
+        type: target || null,
+        token: token || null,          // <-- NEW
         submittedUtc: new Date().toISOString()
       };
 
@@ -148,8 +148,8 @@ function initVerifyPage(cfg, tenant, lang) {
       const headers = {
         'content-type': 'application/json'
       };
-      if (idempotencyKey) {
-        headers['Idempotency-Key'] = idempotencyKey;     // <-- OPTIONAL but useful
+      if (token) {
+        headers['token'] = token;     // <-- OPTIONAL but useful
       }
       btn.disabled = true;
       const oldText = btn.textContent;
