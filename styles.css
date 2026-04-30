@@ -13,6 +13,7 @@ input:focus::placeholder { color: #c9cdd1; }
   display: flex;
   align-items: center;           /* vertically center items */
   justify-content: space-between;/* push tagline to the right */
+  background-color: #FDFDFD;
   gap: 1rem;
 }
 .site-header .left {
@@ -25,6 +26,7 @@ input:focus::placeholder { color: #c9cdd1; }
   display: inline-block;
   vertical-align: middle;
   margin-right: 0.5rem;
+  height: 180px;
 }
 .site-header .title {
   font-size: 1.75rem;
