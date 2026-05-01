@@ -226,6 +226,11 @@
           "type": "string",
           "format": "uri"
         }
+        },
+        "homeUrl": {
+          "type": "string",
+          "format": "uri"
+        }
       }
     },
     "endpoints": {

@@ -71,7 +71,8 @@
 	  "mailto" : {"en": "mailto:daniel@extremeoz.net"},    
     "telto" : {"en": "tel:+61436030205"},  
 	  "privacyUrl" : {"en": "https://extremeoz.net/privacy.html"},
-	  "termsUrl" : {"en": "https://extremeoz.net/terms.html"}
+	  "termsUrl" : {"en": "https://extremeoz.net/terms.html"},
+	  "homeUrl" : {"en": "https://extremeoz.net"}
   },
   "endpoints": {
 	  "verifyHttpFlow" : "https://acd06123d6dfed108b2b6f31e6923e.c5.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/da9dc05183c24b9bae8193106d84c554/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=s6XminE9HMSft2kKwl__aKE6tWl_HjbB2Ya1m9TMUU0",
