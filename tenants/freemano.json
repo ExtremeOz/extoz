@@ -49,15 +49,15 @@
   "services": [
     {
       "id": "prepurchase",
-      "label": "Pre\u2011purchase inspection"
+      "label": "Pre\u2011purchase building report"
     },
     {
       "id": "pest",
       "label": "Pest inspection"
     },
     {
-      "id": "building",
-      "label": "Building inspection"
+      "id": "pool",
+      "label": "Pool fence inspection"
     }
   ],
   "policy": {
