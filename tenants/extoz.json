@@ -1,6 +1,6 @@
 {
   "id": "extoz",
-  "name": "Extoz Consulting",
+  "name": "ExtremeOz Consulting",
   "assets": {
     "logo": "/assets/tenants/extoz/logo.svg",
     "favicon": "/assets/tenants/extoz/favicon.ico"
@@ -40,9 +40,12 @@
       "en": "Verify now"
     },
     "terms-nutshell": {
-      "en": "Terms Summary: we will never share any of your information. You agree to allow us to verify your contact details. We will attempt to create the services appointment as requested but may be altered for availability. You wil need return a signed pre-engagement agreement which will allow us to safely conduct the inspection(s)."
+      "en": "Terms Summary: we will never share any of your information. You agree to allow us to verify your contact details.  We will attempt to create the appointment as requested but may be altered for availability."
     },
-    "supportEmail" : {"en": "Cairns Pre-Purchase Building Inspections"},
+    "terms-nutshell-2": {
+      "en": "You will need to return a signed pre-engagement agreement which will allow us to safely conduct the inspection(s)."
+    },
+    "supportEmail" : {"en": "Extreme Oz"},
     "supportPhone" : {"en": "0436 03 02 05"},
     "drft": {"en": "Save draft"}    
   },
