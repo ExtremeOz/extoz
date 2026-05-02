@@ -27,6 +27,7 @@ input:focus::placeholder { color: #c9cdd1; }
   vertical-align: middle;
   margin-right: 0.5rem;
   height: 180px;
+  max-width: 220px;
 }
 .site-header .title {
   font-size: 1.75rem;
@@ -39,6 +40,7 @@ input:focus::placeholder { color: #c9cdd1; }
   font-size: 1rem;
   color: #555;
   margin-top: 0.25rem;    /* tweak alignment */
+  padding-right: 0.5rem; /* optional: add some right padding */
 }
 .site-footer { text-align: center; color: var(--muted); font-size: smaller; margin-top: 48px; }
 .card { background: var(--surface); border: 1px solid #e5e7eb; border-radius: 12px; padding: 16px; }

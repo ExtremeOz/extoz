@@ -6,7 +6,7 @@ const PROVIDED = (window.__BASE__ ?? '').replace(/\/$/, '');
 const BASE = (PROVIDED === '') ? '' : (PROVIDED || '/extoz');
 const QS = new URLSearchParams(location.search);
 // id used to identify building‑inspection service in configs
-const BUILDING_SERVICE_ID = 'building';
+const POOL_SERVICE_ID = 'pool';
 const PREPURCH_SERVICE_ID = 'prepurchase';
 const PEST_SERVICE_ID = 'pest';
 
@@ -44,7 +44,7 @@ function roundToPeriod(value) {
     case 'morning': return '09:00';
     case 'afternoon': return '12:00';
     case 'evening': return '15:00';
-    default: return value;
+    default: if (value.length > 5) return "08;00"; else return value;
   }
 }
 function withBase(p) {
@@ -54,7 +54,7 @@ function withBase(p) {
 function updateBuildingFields() {
   const form = document.getElementById('inspection-form'); if (!form) return;
   const selected = Array.from(form.elements['service'].selectedOptions).map(opt => ({ code: opt.value, quantity: 1 }));
-  const should = (selected.some(s => s.code === BUILDING_SERVICE_ID) || selected.some(s => s.code === PREPURCH_SERVICE_ID));
+  const should = (selected.some(s => s.code === POOL_SERVICE_ID) || selected.some(s => s.code === PREPURCH_SERVICE_ID));
   const container = document.getElementById('building-details');
   if (container){ container.hidden = !should; container.setAttribute('aria-hidden', String(!should)); }
 }
@@ -206,6 +206,11 @@ function initInspectionPage(cfg, tenant, lang) {
     //if (fd.get('time1') && !/^([01]\d|2[0-3]):?([0-5]\d)$/.test(fd.get('time1').toString().trim())) { showError('Please enter a valid time for preference 1.'); return; }
    // if (fd.get('time2') && !/^([01]\d|2[0-3]):?([0-5]\d)$/.test(fd.get('time2').toString().trim())) { showError('Please enter a valid time for preference 2.'); return; }    
     if (services.length === 0) { showError('Please select at least one service.'); return; }
+    if (fd.get('date1').length > 0 && fd.get('date1') < new Date().toISOString().split('T')[0]) { showError('Preferred date 1 cannot be in the past.'); return; }
+    if (fd.get('date1').length > 0 && fd.get('time1').length > 5) {document.getElementById('time1').value = roundToPeriod(document.getElementById('timeSel1').value);}
+    if (fd.get('date2').length > 0 && fd.get('date2') < new Date().toISOString().split('T')[0]) { showError('Preferred date 2 cannot be in the past.'); return; }
+    if (fd.get('date2').length > 0 && fd.get('time2').length > 5) {document.getElementById('time2').value = roundToPeriod(document.getElementById('timeSel2').value);}
+
     const payload = {
       tenant, lang, source: 'inspection-form',
       idempotencyKey: uuidv4(),title: fd.get('title')?.toString().trim() || null,
@@ -222,7 +227,7 @@ function initInspectionPage(cfg, tenant, lang) {
       metadata: {policyAccepted: !!fd.get('privacyPolicy'), termsAccepted: !!fd.get('termsConsent')}
     };
     // attach building numbers if relevant
-    if (services.some(s => s.code === BUILDING_SERVICE_ID) || services.some(s => s.code === PREPURCH_SERVICE_ID)) {
+    if (services.some(s => s.code === POOL_SERVICE_ID) || services.some(s => s.code === PREPURCH_SERVICE_ID)) {
       payload.building = {
         nbrBuildings: Number(fd.get('nbrBuildings') || 0),
         nbrLounge: Number(fd.get('nbrLounge') || 0),
