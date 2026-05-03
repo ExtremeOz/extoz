@@ -35,6 +35,11 @@ function uuidv4() {
 function setFavicon(href) { const link = document.querySelector('link#favicon[rel="icon"]'); if (link && href) link.href = href; }
 function tFactory(cfg, lang) { return (key, fallback='') => cfg.text?.[key]?.[lang] ?? cfg.text?.[key]?.en ?? fallback; }
 function pFactory(cfg, lang) { return (key, fallback='') => cfg.policy?.[key]?.[lang] ?? cfg.policy?.[key]?.en ?? fallback; }
+function localizedValue(value, lang) {
+  if (!value) return '';
+  if (typeof value === 'string') return value;
+  return value?.[lang] ?? value?.en ?? '';
+}
 function roundTo30Min(value) {
   if (!value) return value; const [h, m] = value.split(':').map(Number); if (Number.isNaN(h) || Number.isNaN(m)) return value;
   const total = h*60 + m; const r = Math.round(total/30)*30; const hh = String(Math.floor(r/60)).padStart(2,'0'); const mm = String(r%60).padStart(2,'0'); return `${hh}:${mm}`;
@@ -167,10 +172,11 @@ function initVerifyPage(cfg, tenant, lang) {
           try { reason = await r.text(); } catch {}
           throw new Error(reason || `HTTP ${r.status}`);
         }
-
         // Optionally inspect the JSON for a 'status'/'message' model from your flow
         // const data = await r.json().catch(() => ({}));
         alert('Thanks! We’ve verified your details.');
+        const homeUrl = localizedValue(cfg.endpoints?.homeUrl, lang) || localizedValue(cfg.policy?.homeUrl, lang);
+        if (homeUrl) window.location.href = homeUrl;        
       } catch (e) {
         console.error(e);
         showError('Could not verify right now. Please try again.' + (e.message ? ` (${e.message})` : ''));
@@ -250,8 +256,10 @@ function initInspectionPage(cfg, tenant, lang) {
       else {
         if (form.website) { form.website.value = url;}
       }
-      sessionStorage.removeItem(DRAFT_KEY); alert('Thanks! Your inspection request has been submitted.'); 
-      form.reset(); 
+      sessionStorage.removeItem(DRAFT_KEY); alert('Thanks! Your inspection request has been submitted.');
+      const homeUrl = localizedValue(cfg.endpoints?.homeUrl, lang) || localizedValue(cfg.policy?.homeUrl, lang);
+      if (homeUrl) window.location.href = homeUrl;
+      else form.reset();
     }
     catch(err){ console.error(err); showError('Something went wrong submitting your request. Please try again. ' + (err.message ? ` (${err.message})` : '')); }
     finally { setBusy(false); }
