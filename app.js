@@ -219,7 +219,7 @@ function initInspectionPage(cfg, tenant, lang) {
 
     const payload = {
       tenant, lang, source: 'inspection-form',
-      idempotencyKey: uuidv4(),title: fd.get('title')?.toString().trim() || null,
+      idempotencyKey: uuidv4(),title: fd.get('title')?.toString().trim() || '',
       firstName: fd.get('firstName')?.toString().trim(), lastName: fd.get('lastName')?.toString().trim(),
       email: fd.get('email')?.toString().trim().toLowerCase(), phone: fd.get('phone')?.toString().trim(),
       prefMethod: fd.get('contactMethod')?.toString().trim(),
@@ -227,7 +227,7 @@ function initInspectionPage(cfg, tenant, lang) {
       suburb: fd.get('suburb')?.toString().trim(), state: fd.get('state')?.toString().trim(), postcode: fd.get('postcode')?.toString().trim(), country: 'AU',
       address3: fd.get('address3')?.toString().trim() || '',
       service: services,
-      serviceNotes: fd.get('notes')?.toString().trim() || null,
+      serviceNotes: fd.get('notes')?.toString().trim() || '',
       preferences: [ toPreference(fd.get('date1')?.toString(), fd.get('time1')?.toString()), toPreference(fd.get('date2')?.toString(), fd.get('time2')?.toString()) ].filter(Boolean),
       submittedUtc: new Date().toISOString(),
       metadata: {policyAccepted: !!fd.get('privacyPolicy'), termsAccepted: !!fd.get('termsConsent')}
