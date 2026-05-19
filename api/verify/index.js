@@ -40,7 +40,12 @@ module.exports = async function (context, req) {
   }
 
   const body = req.body || {};
-
+  const tokenId = String(body.token || "")
+      .toLowerCase();
+  if (!tokenId){
+    context.res = buildResponse(404, "Could not verify missing token", origin);
+    return;    
+  }
   const tenantId = String(body.tenant || "")
     .toLowerCase()
     .replace(/[^a-z0-9-]/g, "");
@@ -67,10 +72,6 @@ module.exports = async function (context, req) {
       context.res = buildResponse(403, "Origin not allowed", origin);
       return;
     }
-  }
-  if (!body.idempotencyKey) {
-    context.res = buildResponse(400, "Missing idempotencyKey", origin);
-    return;
   }
 
   const flowUrl =
