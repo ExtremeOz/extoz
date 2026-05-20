@@ -40,12 +40,12 @@ module.exports = async function (context, req) {
   }
 
   const body = req.body || {};
-  const tokenId = String(body.token || "")
-      .toLowerCase();
+  const tokenId = String(body.token || "").toLowerCase();
   if (!tokenId){
     context.res = buildResponse(404, "Could not verify missing token", origin);
     return;    
   }
+  
   const tenantId = String(body.tenant || "")
     .toLowerCase()
     .replace(/[^a-z0-9-]/g, "");
