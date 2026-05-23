@@ -58,7 +58,9 @@ function withBase(p) {
 // show/hide building fields when appropriate
 function updateBuildingFields() {
   const form = document.getElementById('inspection-form'); if (!form) return;
-  const selected = Array.from(form.elements['service'].selectedOptions).map(opt => ({ code: opt.value, quantity: 1 }));
+  const selected = Array.from(form.elements['service'].selectedOptions)
+    .filter(opt => opt.value)
+    .map(opt => ({ code: opt.value, quantity: 1 }));
   const should = (selected.some(s => s.code === POOL_SERVICE_ID) || selected.some(s => s.code === PREPURCH_SERVICE_ID));
   const container = document.getElementById('building-details');
   if (container){ container.hidden = !should; container.setAttribute('aria-hidden', String(!should)); }
@@ -203,6 +205,7 @@ function initInspectionPage(cfg, tenant, lang) {
     const fd = new FormData(form);
       // Multi-select services => array of { code, quantity: 1 }
     const services = Array.from(form.elements['service'].selectedOptions)
+      .filter(opt => opt.value)
       .map(opt => ({ code: opt.value, quantity: 1 }));   
     if (fd.get('privacyPolicy') !== 'on') { showError('You must accept the privacy policy to submit your request.'); return; }
     if (fd.get('termsConsent') !== 'on') { showError('You must accept the terms and conditions to submit your request.'); return; }
