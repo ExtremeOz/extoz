@@ -224,7 +224,7 @@ function initInspectionPage(cfg, tenant, lang) {
     if (fd.get('privacyPolicy') !== 'on') { showError('You must accept the privacy policy to submit your request.'); return; }
     if (fd.get('termsConsent') !== 'on') { showError('You must accept the terms and conditions to submit your request.'); return; }
     if (fd.get('email') && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fd.get('email').toString().trim())) { showError('Please enter a valid email address.'); return; }
-    if (fd.get('phone') && !/^\+?[0-9\s\-()]+$/.test(fd.get('phone').toString().trim())) { showError('Please enter a valid phone number.'); return; }
+    if (fd.get('phone') && !/^(?:\+61\s?|0)[2-478]\d{1}\s?\d{4}\s?\d{4}$/.test(fd.get('phone').toString().trim())) { showError('Please enter a valid phone number.'); return; }
     if (fd.get('postcode') && !/^\d{4,10}$/.test(fd.get('postcode').toString().trim())) { showError('Please enter a valid postcode.'); return; }
     //if (fd.get('time1') && !/^([01]\d|2[0-3]):?([0-5]\d)$/.test(fd.get('time1').toString().trim())) { showError('Please enter a valid time for preference 1.'); return; }
    // if (fd.get('time2') && !/^([01]\d|2[0-3]):?([0-5]\d)$/.test(fd.get('time2').toString().trim())) { showError('Please enter a valid time for preference 2.'); return; }    
@@ -234,11 +234,29 @@ function initInspectionPage(cfg, tenant, lang) {
     if (fd.get('date2').length > 0 && fd.get('date2') < new Date().toISOString().split('T')[0]) { showError('Preferred date 2 cannot be in the past.'); return; }
     if (fd.get('date2').length > 0 && fd.get('time2').length > 5) {document.getElementById('time2').value = roundToPeriod(document.getElementById('timeSel2').value);}
 
+    let value = fd.get('phone').toString().trim();
+
+    // Remove spaces, brackets, dashes
+    value = value.replace(/[\s()-]/g, '');
+    // Convert to international format
+    if (value.startsWith('04')) {
+        value = '+61' + value.substring(1); // 04 → +614
+    } else if (value.startsWith('4')) {
+        value = '+61' + value; // just in case user omits 0
+    } else if (value.startsWith('0')) {
+        value = '+61' + value.substring(1); // landline fallback
+    }
+
+    if (!value.startsWith('+61')) {
+        console.warn('Unexpected phone format:', value);
+        showError('Please enter a valid phone number.'); return;
+    }
+
     const payload = {
       tenant, lang, source: 'inspection-form',
       idempotencyKey: uuidv4(),title: fd.get('title')?.toString().trim() || '',
       firstName: fd.get('firstName')?.toString().trim(), lastName: fd.get('lastName')?.toString().trim(),
-      email: fd.get('email')?.toString().trim().toLowerCase(), phone: fd.get('phone')?.toString().trim(),
+      email: fd.get('email')?.toString().trim().toLowerCase(), phone: value,
       prefMethod: fd.get('contactMethod')?.toString().trim(),
       address1: fd.get('address1')?.toString().trim(), address2: fd.get('address2')?.toString().trim() || '',
       suburb: fd.get('suburb')?.toString().trim(), state: fd.get('state')?.toString().trim(), postcode: fd.get('postcode')?.toString().trim(), country: 'AU',

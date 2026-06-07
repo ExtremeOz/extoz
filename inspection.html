@@ -40,8 +40,9 @@
           <input id="email" name="email" type="email" autocomplete="email" inputmode="email" required />
         </div>
         <div class="field">
-          <label for="phone">&#42;Mobile</label>
-          <input id="phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" pattern="^\+?\d[\d\s()-]{7,}$" placeholder="+61 4xx xxx xxx" required />
+          <label for="phone">&#42;Mobile</label>          
+          <input id="phone" name="phone" type="tel" autocomplete="tel" inputmode="tel"
+            pattern="^(?:\+61\s?|0)[2-478]\d{1}\s?\d{4}\s?\d{4}$" placeholder="04xx xxx xxx" required/>
           <div class="hint">Mobile needed for SMS confirmation.</div>
         </div>
         <div class="field">
