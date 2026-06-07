@@ -20,6 +20,7 @@
     <form id="inspection-form" novalidate class="card form-grid">
       <h2>Contact details</h2>
       <p data-i18n="tagline2" class="hint">&#42; indicates a required field others are optional</p>
+      <input id="defaultState" name="defaultState" type="hidden" data-i18n="defaultState"></input>
       <div class="row-3">
         <div class="field">
           <label for="title">Title</label>
@@ -104,6 +105,28 @@
       <!-- building inspection extra inputs -->
       <div id="building-details" hidden aria-hidden="true">
         <h2>Building Details</h2>
+        <div class="row-2">
+          <div class="field">
+            <label for="construction">Building Construction</label>
+            <select id="construction" name="construction" type="text">
+              <option value="">Select</option>
+              <option>Masonry</option>
+              <option>Timber</option>
+              <option>Steel</option>
+              <option>Concrete</option>
+              <option>Alternative</option>
+            </select>
+          </div>          
+          <div class="field">            
+            <label for="elevation">Building Elevation</label>
+            <select id="elevation" name="elevation" type="text">
+              <option value="">Select</option>
+              <option>Lowset</option>
+              <option>Midset</option>
+              <option>Highset (Qlder)</option>
+            </select>
+          </div>
+        </div>
         <div class="row-2">
           <div class="field">
             <label for="nbrBuildings">&#42;Number of buildings or structures</label>
@@ -204,7 +227,7 @@
     </form>
   </main>
   <footer class="site-footer">
-    <div class="hint">Need help? Click to email <a id="supportEmail" title="support email" data-policy="mailto" href="mailto:"><span data-i18n="supportEmail"></span></a> or call <a id="supportPhone" title="support phone" data-policy="telto" href="tel:"><span data-i18n="supportPhone"></span></a></div>
+    <div class="">Need help? Click to email <a id="supportEmail" title="support email" data-policy="mailto" href="mailto:"><span data-i18n="supportEmail"></span></a> or call <a id="supportPhone" title="support phone" data-policy="telto" href="tel:"><span data-i18n="supportPhone"></span></a></div>
   </footer>  
   <script type="module">window.__BASE__ = '';</script>
   <script type="module" src="/app.js"></script>

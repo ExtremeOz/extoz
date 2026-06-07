@@ -21,6 +21,9 @@
       "en": "Request an inspection"
     },
     "displayName": {"en" : "ExtremeOz Environmental Services"},
+    "defaultState": {
+      "en": "QLD"
+    },
     "tagline": {
       "en": "Tell us a few details and your preferred times."
     },
@@ -75,7 +78,11 @@
     "telto" : {"en": "tel:+61436030205"},  
 	  "privacyUrl" : {"en": "https://extremeoz.net/privacy.html"},
 	  "termsUrl" : {"en": "https://extremeoz.net/terms.html"},
-	  "homeUrl" : {"en": "https://extremeoz.net"}
+	  "homeUrl" : {"en": "https://extremeoz.net"},
+    "requireDates" : {"en": "1"},
+    "requireTimes" : {"en": "1"},
+    "requirePolicy" : {"en": "true"},
+    "requireTerms" : {"en": "true"}
   },
   "endpoints": {
 	  "verifyHttpFlow" : "https://acd06123d6dfed108b2b6f31e6923e.c5.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/da9dc05183c24b9bae8193106d84c554/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=s6XminE9HMSft2kKwl__aKE6tWl_HjbB2Ya1m9TMUU0",

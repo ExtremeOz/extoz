@@ -49,7 +49,7 @@ function roundToPeriod(value) {
     case 'morning': return '09:00';
     case 'afternoon': return '12:00';
     case 'evening': return '15:00';
-    default: if (value.length > 5) return "08:00"; else return value;
+    default: if (value.length > 5) return "00:00"; else return value;
   }
 }
 function withBase(p) {
@@ -92,13 +92,14 @@ function updateBuildingFields() {
 
   // Theme & assets
   applyCssVars(cfg.cssVars);
+
   const logo = document.getElementById('logo'); if (logo && cfg.assets?.logo) logo.src = cfg.assets.logo;
   if (cfg.assets?.favicon) setFavicon(cfg.assets.favicon);
   // i18n
   const t = tFactory(cfg, lang);
   document.querySelectorAll('[data-i18n]').forEach(el => { const key = el.getAttribute('data-i18n'); el.textContent = t(key, el.textContent); });
   const p = pFactory(cfg, lang);
-  document.querySelectorAll('[data-policy]').forEach(el => { const key = el.getAttribute('data-policy'); el.href = p(key, el.href); });
+  document.querySelectorAll('[data-policy]').forEach(el => { const key = el.getAttribute('data-policy'); if (key.indexOf('require') !== -1) {el.href = p(key, el.href); }});
   // Route per page
   const isVerify = !!document.getElementById('verification-cta');
   const isInspection = !!document.getElementById('inspection-form');
@@ -194,7 +195,20 @@ function initInspectionPage(cfg, tenant, lang) {
   const form = document.getElementById('inspection-form'); const saveDraftBtn = document.getElementById('saveDraftBtn'); const submitBtn = document.getElementById('submitBtn'); 
   const errorEl = document.getElementById('form-error');
   const showError = (m)=>{ if (errorEl) { errorEl.textContent = m; errorEl.hidden = !m; } };
+  const dateRequired = parseInt(cfg.policy?.requireDates?.[lang]) || 1;
+  const timeRequired = parseInt(cfg.policy?.requireTimes?.[lang]) || 1;
+  const policyRequired = (cfg.policy?.requirePolicy?.[lang] ?? 'true').toString().toLowerCase() === 'true';
+  const termsRequired = (cfg.policy?.requireTerms?.[lang] ?? 'true').toString().toLowerCase() === 'true';
+  if (!policyRequired) { const div = document.getElementById('policyfield'); if (div) { div.hidden = true; } }  
+  if (!termsRequired) { const div = document.getElementById('termsfield'); if (div) { div.hidden = true; } }
+  if (!policyRequired && !termsRequired) { const div = document.getElementById('explanationfield'); if (div) { div.hidden = true; } }
+  if (dateRequired == 0) { document.querySelectorAll('.request-date').forEach(el => el.hidden = true); }else{
+    if (dateRequired == 1) { const els = document.querySelectorAll('.request-date'); if (els.length > 1) { els[1].hidden = true; } } // hide second date if only one required
+    if (timeRequired == 0) { document.querySelectorAll('.time-field').forEach(el => el.hidden = true); }
+    if (timeRequired == 1) { const els = document.querySelectorAll('.time-field'); if (els.length > 1) { els[1].hidden = true; } } // hide second time if only one required
+  }
   const serviceSel = document.getElementById('service'); if (serviceSel && Array.isArray(cfg.services)) { for (const s of cfg.services) { const o = document.createElement('option'); o.value = s.id; o.textContent = s.label; serviceSel.appendChild(o);} }
+  const addressStateSel = document.getElementById('state'); if (addressStateSel && cfg.text.defaultState){ const defaultState = localizedValue(cfg.text.defaultState, lang); if (defaultState) { for(const o of addressStateSel.options) { if (o.value === defaultState) { o.selected = true; break; } } } }
   serviceSel?.addEventListener('change', updateBuildingFields);
   const DRAFT_KEY = `draft:${tenant}`; try { const d = JSON.parse(sessionStorage.getItem(DRAFT_KEY) || 'null'); if (d && form) { for (const [k,v] of Object.entries(d)) { const el = form.elements.namedItem(k); if (el && 'value' in el) el.value = v; } } } catch {}
   for (const id of ['timeSel1','timeSel2']) { const el = document.getElementById(id); el?.addEventListener('change', ()=>{ if (el.id == 'timeSel1') document.getElementById('time1').value = roundToPeriod(el.value); else document.getElementById('time2').value = roundToPeriod(el.value); }); }
@@ -238,6 +252,8 @@ function initInspectionPage(cfg, tenant, lang) {
     // attach building numbers if relevant
     if (services.some(s => s.code === POOL_SERVICE_ID) || services.some(s => s.code === PREPURCH_SERVICE_ID)) {
       payload.building = {
+        construction: fd.get('construction')?.toString().trim() || '',
+        elevation: fd.get('elevation')?.toString().trim() || '',
         nbrBuildings: Number(fd.get('nbrBuildings') || 0),
         nbrLounge: Number(fd.get('nbrLounge') || 0),
         nbrKitchen: Number(fd.get('nbrKitchen') || 0),

@@ -71,10 +71,10 @@
         <div class="field">
           <label for="state">&#42;State</label>
           <select id="state" name="state" autocomplete="address-level1" required>
-            <option value="">Select</option>
+            <option value="">Select</option><option>ACT</option>
             <option>QLD</option><option>NSW</option><option>VIC</option>
-            <option>SA</option><option>WA</option><option>TAS</option>
-            <option>ACT</option><option>NT</option>
+            <option>WA</option><option>SA</option><option>TAS</option>
+            <option>NT</option>
           </select>
         </div>
         <div class="field">
@@ -104,6 +104,28 @@
       <!-- building inspection extra inputs -->
       <div id="building-details" hidden aria-hidden="true">
         <h2>Building Details</h2>
+        <div class="row-2">
+          <div class="field">
+            <label for="construction">Building Construction</label>
+            <select id="construction" name="construction" type="text">
+              <option value="">Select</option>
+              <option>Masonry</option>
+              <option>Timber</option>
+              <option>Steel</option>
+              <option>Concrete</option>
+              <option>Alternative</option>
+            </select>
+          </div>          
+          <div class="field">            
+            <label for="elevation">Building Elevation</label>
+            <select id="elevation" name="elevation" type="text">
+              <option value="">Select</option>
+              <option>Lowset</option>
+              <option>Midset</option>
+              <option>Highset (Qlder)</option>
+            </select>
+          </div>
+        </div>
         <div class="row-2">
           <div class="field">
             <label for="nbrBuildings">&#42;Number of buildings or structures</label>
@@ -145,13 +167,13 @@
           </div>
         </div>
       </div>
-      <h2>Preferred times</h2>
-      <div class="row-2">
-        <div class="field">
+      <hr />      
+      <div class="row-2 request-date">
+        <div class="field date-field">
           <label for="date1">&#42;Date 1</label>
           <input id="date1" name="date1" type="date" required />
         </div>
-        <div class="field">
+        <div class="field time-field">
           <label for="timeSel1"></label>Time of Day <span class="hint">(optional)</span></label>
            <input id="time1" name="time1" type="hidden" value="08:00" />
             <select id="timeSel1" name="timeSel1" title="Preferred time of day">
@@ -163,12 +185,12 @@
          <div class="hint">Morning 9 - 11am Midday 11 - 2pm Afternoon 2- 5pm</div> 
         </div>
       </div>
-      <div class="row-2">
-        <div class="field">
+      <div class="row-2 request-date">
+        <div class="field date-field">
           <label for="date2">Date 2 <span class="hint">(optional)</span></label>
           <input id="date2" name="date2" type="date" />
         </div>
-        <div class="field">
+        <div class="field time-field">
           <input id="time2" name="time2" type="hidden" value="08:00" />
           <label for="timeSel2">Time of Day <span class="hint">(optional)</span></label>
             <select id="timeSel2" name="timeSel2" title="Preferred time of the day" >
@@ -181,14 +203,14 @@
         </div>
       </div>
       <div class="row-3">
-        <div class="field">
+        <div class="field" id="policyfield">
           <label><input type="checkbox" name="privacyPolicy" required />&#42; I have read and accept the <a data-policy="privacyUrl" href="/privacy-policy" target="_blank">Privacy Policy</a></label>
         </div>
-        <div class="field">
+        <div class="field" id="explanationfield">
           <p data-i18n="terms-nutshell" class="hint">&#42; Summary: we will never share any of your information. You agree to allow us to verify your contact details. We will attempt to create an appointment for the services as requested by may be altered for availability.</p>
           <p data-i18n="terms-nutshell-2" class="hint">&#42; You will need to return a signed pre-engagement agreement which will allow us to safely conduct the inspection(s).</p>
         </div>
-        <div class="field">
+        <div class="field" id="termsfield">
           <label><input type="checkbox" name="termsConsent" required /> &#42;I agree to the <a class="tagline" data-policy="termsUrl" href="/terms-and-conditions" target="_blank">Terms and Conditions</a></label> 
         </div>
       </div>
