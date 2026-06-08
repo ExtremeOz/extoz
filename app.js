@@ -199,6 +199,8 @@ function initInspectionPage(cfg, tenant, lang) {
   const timeRequired = parseInt(cfg.policy?.requireTimes?.[lang]) || 1;
   const policyRequired = (cfg.policy?.requirePolicy?.[lang] ?? 'true').toString().toLowerCase() === 'true';
   const termsRequired = (cfg.policy?.requireTerms?.[lang] ?? 'true').toString().toLowerCase() === 'true';
+  document.documentElement.dataset.requirePolicy = policyRequired; document.documentElement.dataset.requireTerms = termsRequired; 
+  document.documentElement.dataset.requireDates = dateRequired; document.documentElement.dataset.requireTimes = timeRequired;
   if (!policyRequired) { const div = document.getElementById('policyfield'); if (div) { div.hidden = true; } }  
   if (!termsRequired) { const div = document.getElementById('termsfield'); if (div) { div.hidden = true; } }
   if (!policyRequired && !termsRequired) { const div = document.getElementById('explanationfield'); if (div) { div.hidden = true; } }
@@ -221,21 +223,22 @@ function initInspectionPage(cfg, tenant, lang) {
     const services = Array.from(form.elements['service'].selectedOptions)
       .filter(opt => opt.value)
       .map(opt => ({ code: opt.value, quantity: 1 }));   
-    if (fd.get('privacyPolicy') !== 'on') { showError('You must accept the privacy policy to submit your request.'); return; }
-    if (fd.get('termsConsent') !== 'on') { showError('You must accept the terms and conditions to submit your request.'); return; }
+    if (document.documentElement.dataset.requirePolicy && fd.get('privacyPolicy') !== 'on') { showError('You must accept the privacy policy to submit your request.'); return; }
+    if (document.documentElement.dataset.requireTerms && fd.get('termsConsent') !== 'on') { showError('You must accept the terms and conditions to submit your request.'); return; }
     if (fd.get('email') && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fd.get('email').toString().trim())) { showError('Please enter a valid email address.'); return; }
-    if (fd.get('phone') && !/^(?:\+61\s?|0)[2-478]\d{1}\s?\d{4}\s?\d{4}$/.test(fd.get('phone').toString().trim())) { showError('Please enter a valid phone number.'); return; }
+  //  if (fd.get('phone') && !/^(?:\+61\s?|0)[2-478]\d{1}\s?\d{4}\s?\d{4}$/.test(fd.get('phone').toString().trim())) { showError('Please enter a valid phone number.'); return; }
     if (fd.get('postcode') && !/^\d{4,10}$/.test(fd.get('postcode').toString().trim())) { showError('Please enter a valid postcode.'); return; }
     //if (fd.get('time1') && !/^([01]\d|2[0-3]):?([0-5]\d)$/.test(fd.get('time1').toString().trim())) { showError('Please enter a valid time for preference 1.'); return; }
    // if (fd.get('time2') && !/^([01]\d|2[0-3]):?([0-5]\d)$/.test(fd.get('time2').toString().trim())) { showError('Please enter a valid time for preference 2.'); return; }    
     if (services.length === 0) { showError('Please select at least one service.'); return; }
     if (fd.get('date1').length > 0 && fd.get('date1') < new Date().toISOString().split('T')[0]) { showError('Preferred date 1 cannot be in the past.'); return; }
     if (fd.get('date1').length > 0 && fd.get('time1').length > 5) {document.getElementById('time1').value = roundToPeriod(document.getElementById('timeSel1').value);}
-    if (fd.get('date2').length > 0 && fd.get('date2') < new Date().toISOString().split('T')[0]) { showError('Preferred date 2 cannot be in the past.'); return; }
-    if (fd.get('date2').length > 0 && fd.get('time2').length > 5) {document.getElementById('time2').value = roundToPeriod(document.getElementById('timeSel2').value);}
+    if (document.documentElement.dataset.requireDates == 2) { 
+      if (fd.get('date2').length > 0 && fd.get('date2') < new Date().toISOString().split('T')[0]) { showError('Preferred date 2 cannot be in the past.'); return; }
+      if (fd.get('date2').length > 0 && fd.get('time2').length > 5) {document.getElementById('time2').value = roundToPeriod(document.getElementById('timeSel2').value);}
+    }
 
     let value = fd.get('phone').toString().trim();
-
     // Remove spaces, brackets, dashes
     value = value.replace(/[\s()-]/g, '');
     // Convert to international format
