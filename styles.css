@@ -30,7 +30,7 @@ input:focus::placeholder { color: #c9cdd1; }
   max-width: 220px;
 }
 .site-header .title {
-  font-size: 1.75rem;
+  font-size: clamp(1.25rem, 4vw, 1.75rem);
   font-weight: 600;
   display: inline-block;
   vertical-align: middle;
@@ -58,3 +58,12 @@ input:focus::placeholder { color: #c9cdd1; }
 .field label { display:block; font-weight:600; margin-bottom:6px; }
 .field input, .field select, .field textarea { width:100%; padding:10px; border-radius:8px; border:1px solid #d1d5db; background: var(--surface); color: inherit; }
 @media (max-width: 760px) { .row-2, .row-3 { grid-template-columns: 1fr; } }
+@media (max-width: 600px) {
+  .site-header .title {
+    font-size: 1.25rem;
+  }
+
+  .site-header .tagline {
+    display: none;
+  }
+}
