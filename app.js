@@ -249,7 +249,6 @@ function initInspectionPage(cfg, tenant, lang) {
     } else if (value.startsWith('0')) {
         value = '+61' + value.substring(1); // landline fallback
     }
-
     if (!value.startsWith('+61')) {
         console.warn('Unexpected phone format:', value);
         showError('Please enter a valid phone number.'); return;
@@ -285,8 +284,7 @@ function initInspectionPage(cfg, tenant, lang) {
         nbrOther: Number(fd.get('nbrOther') || 0)
       };
       if (payload.building.nbrBuildings <= 0) { showError('Please specify the number of buildings/structures to be inspected.'); return;}
-    }
-    if (payload.phone?.startsWith('0')) payload.phone = '+61' + payload.phone.slice(1).replace(/\s+/g, '');
+    }    
     var url = (cfg.endpoints?.inspectionRequestFlow || '').trim(); 
       if (!url || (url.length <= 0)){
         showError('Submission endpoint is not configured for this tenant.');
