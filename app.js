@@ -49,7 +49,8 @@ function roundToPeriod(value) {
     case 'morning': return '09:00';
     case 'afternoon': return '12:00';
     case 'evening': return '15:00';
-    default: if (value.length > 5) return "00:00"; else return value;
+    case 'anytime': return '23:59';
+    default: return "23:59";
   }
 }
 function withBase(p) {
