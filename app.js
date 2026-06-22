@@ -256,6 +256,15 @@ function initInspectionPage(cfg, tenant, lang) {
         showError('Please enter a valid phone number.'); return;
     }
 
+    const preferences = [];
+    const requiredDates = Number(document.documentElement.dataset.requireDates || 0);
+    if (requiredDates >= 1) {
+      preferences.push(toPreference(fd.get('date1')?.toString(), fd.get('time1')?.toString()));
+    }
+    if (requiredDates >= 2) {
+      preferences.push(toPreference(fd.get('date2')?.toString(), fd.get('time2')?.toString()));
+    }
+
     const payload = {
       tenant, lang, source: 'inspection-form',
       idempotencyKey: uuidv4(),title: fd.get('title')?.toString().trim() || '',
@@ -267,7 +276,7 @@ function initInspectionPage(cfg, tenant, lang) {
       address3: fd.get('address3')?.toString().trim() || '',
       service: services,
       serviceNotes: fd.get('notes')?.toString().trim() || '',
-      preferences: [ toPreference(fd.get('date1')?.toString(), fd.get('time1')?.toString()), toPreference(fd.get('date2')?.toString(), fd.get('time2')?.toString()) ].filter(Boolean),
+      preferences: preferences.filter(Boolean),
       submittedUtc: new Date().toISOString(),
       metadata: {policyAccepted: !!fd.get('privacyPolicy'), termsAccepted: !!fd.get('termsConsent')}
     };
