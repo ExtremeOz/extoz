@@ -47,8 +47,8 @@ function roundTo30Min(value) {
 function roundToPeriod(value) {
   switch(value.toLowerCase()) {
     case 'morning': return '09:00';
-    case 'afternoon': return '12:00';
-    case 'evening': return '15:00';
+    case 'midday': return '12:00';
+    case 'afternoon': return '15:00';
     case 'anytime': return '23:59';
     default: return "23:59";
   }
@@ -214,7 +214,8 @@ function initInspectionPage(cfg, tenant, lang) {
   const addressStateSel = document.getElementById('state'); if (addressStateSel && cfg.text.defaultState){ const defaultState = localizedValue(cfg.text.defaultState, lang); if (defaultState) { for(const o of addressStateSel.options) { if (o.value === defaultState) { o.selected = true; break; } } } }
   serviceSel?.addEventListener('change', updateBuildingFields);
   const DRAFT_KEY = `draft:${tenant}`; try { const d = JSON.parse(sessionStorage.getItem(DRAFT_KEY) || 'null'); if (d && form) { for (const [k,v] of Object.entries(d)) { const el = form.elements.namedItem(k); if (el && 'value' in el) el.value = v; } } } catch {}
-  for (const id of ['timeSel1','timeSel2']) { const el = document.getElementById(id); el?.addEventListener('change', ()=>{ if (el.id == 'timeSel1') document.getElementById('time1').value = roundToPeriod(el.value); else document.getElementById('time2').value = roundToPeriod(el.value); }); }
+  for (const id of ['timeSel1','timeSel2']) { const el = document.getElementById(id); el?.addEventListener('change', ()=>{ 
+    if (el.id == 'timeSel1') document.getElementById('time1').value = roundToPeriod(el.value); else document.getElementById('time2').value = roundToPeriod(el.value); }); }
   saveDraftBtn?.addEventListener('click', ()=>{ if (!form) return; const data = Object.fromEntries(new FormData(form).entries()); sessionStorage.setItem(DRAFT_KEY, JSON.stringify(data)); alert('Draft saved on this device.'); });
   form?.addEventListener('submit', async (e)=>{
     e.preventDefault(); showError(''); const website = form.website.value?.trim(); if (website) { alert('Thank you! We will be in touch shortly.'); form.reset(); return; }
