@@ -54,7 +54,7 @@
   },
   "services": [
     {
-      "id": "prepurchase",
+      "id": "build-report",
       "label": "Pre\u2011purchase building report"
     },
     {
